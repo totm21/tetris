@@ -1,24 +1,13 @@
 
 #include"Win.h"
 
-LPCWSTR stringToLPCWSTR(std::string orig)
-{
-	size_t origsize = orig.length() + 1;
-	size_t convertedChars = 0;
-	wchar_t *wcstring = (wchar_t *)malloc(sizeof(wchar_t)*(orig.length() - 1));
-	mbstowcs_s(&convertedChars, wcstring, origsize, orig.c_str(), _TRUNCATE);
-
-	return wcstring;
-}
-
-
 Win::Win()
 {
-    this->wndclass.hbrBackground = CreateSolidBrush(RGB(255, 255, 0));					//背景颜色画刷
+    this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,0,0));						//背景颜色画刷
 	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//鼠标光标类型,手：DC_HAND
 	this->wndclass.hIcon = LoadIcon(NULL, IDI_ERROR);									//图标
 	this->wndclass.lpszClassName = TEXT("tetris");										//窗口类型名
-	this->wndclass.style = CS_HREDRAW | CS_VREDRAW;										//窗口类的风格
+	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//窗口类的风格
 }
 
 Win::Win(HINSTANCE hInstance)
@@ -26,11 +15,11 @@ Win::Win(HINSTANCE hInstance)
 	this->wndclass = { 0 };
 	this->wndclass.hInstance = hInstance;												//句柄
 	this->wndclass.lpfnWndProc = WindowProc;							
-	this->wndclass.hbrBackground = CreateSolidBrush(RGB(255, 255, 0));					//背景颜色画刷
+	this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,255,255));					//背景颜色画刷
 	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//鼠标光标类型,手：DC_HAND
-	this->wndclass.hIcon = LoadIcon(NULL, IDI_ERROR);									//图标
+	this->wndclass.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IMG_ICON1));											//图标
 	this->wndclass.lpszClassName = TEXT("tetris");										//窗口类型名
-	this->wndclass.style = CS_HREDRAW | CS_VREDRAW;										//窗口类的风格
+	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//窗口类的风格
 }
 
 void Win::register_class()
@@ -39,13 +28,12 @@ void Win::register_class()
 	return ;
 }
 
-void Win::create_window(std::string name,int location_x,int location_y,int width,int high)
+void Win::create_window(LPCTSTR name,int location_x,int location_y,int width,int high)
 {
 	this->hwnd=CreateWindow(
 		TEXT("tetris"),													 				//窗口类型名
-		//stringToLPCWSTR(name),					                            		//窗口标题
-		TEXT("俄罗斯方块"),
-		WS_BORDER | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,                  			//窗口的风格
+		name,																			//窗口标题
+		WS_BORDER | WS_CAPTION | WS_MINIMIZEBOX  | WS_MAXIMIZEBOX | WS_SYSMENU | WS_SIZEBOX, //窗口的风格
 		location_x, location_y,                                                         //窗口左上角坐标（像素）
 		width, high,                                                               		//窗口的宽和高
 		NULL,                                                                   		//父窗口句柄
@@ -80,12 +68,19 @@ void Win::loop_message()
 	return ;
 }
 
-void Win::start_win(std::string name,int location_x,int location_y,int width,int high)
+void Win::create_console()
+{
+	AllocConsole();
+    freopen("CONOUT$", "w", stdout);
+}
+
+void Win::start_win(LPCTSTR name,int location_x,int location_y,int width,int high)
 {
 	this->register_class();
 	this->create_window(name,location_x,location_y,width,high);
 	this->show_window();
 	this->updata_window();
+	this->create_console();
 	this->loop_message();
 	return ;
 }

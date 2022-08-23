@@ -9,13 +9,13 @@ HINSTANCE hInstance;
 
 int main()
 {
-    hInstance = GetModuleHandle(TEXT("tetris.exe"));
-    AllocConsole();
-    freopen("CONOUT$", "w", stdout);
+    //hInstance = GetModuleHandle(TEXT("tetris.exe"));
+    
 
-
+    
     Win win(hInstance);
-    win.start_win("俄罗斯方块",100,100,300,500);
+    win.start_win(TEXT("俄罗斯方块"),200,100,1000,600);
+    
     
     return 0;
 }

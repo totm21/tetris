@@ -12,6 +12,7 @@
 #include<windows.h>
 #include<string>
 
+#include"../resources/resources.h"
 
 class Win
 {
@@ -25,20 +26,20 @@ class Win
         //注册窗口类
         void register_class(); 
         //创建窗口
-        void create_window(std::string name,int location_x,int location_y,int width,int high);    
+        void create_window(LPCTSTR name,int location_x,int location_y,int width,int high);    
         //显示窗口
         void show_window();      
         //更新窗口
         void updata_window();     
         //消息循环
         void loop_message();
+        //创建控制台窗口
+        void create_console();
+
 
         //总
-        void start_win(std::string name,int location_x,int location_y,int width,int high);
+        void start_win(LPCTSTR name,int location_x,int location_y,int width,int high);
 };
-
-//string 转 LPCWSTR
-LPCWSTR stringToLPCWSTR(std::string orig);
 
 //程序内默认窗口处理函数
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

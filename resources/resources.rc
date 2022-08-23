@@ -1,0 +1,4 @@
+
+#include"resources.h"
+
+IMG_ICON1 ICON "root.ico"
