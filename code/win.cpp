@@ -3,23 +3,30 @@
 
 Win::Win()
 {
-    this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,0,0));						//±³¾°ÑÕÉ«»­Ë¢
-	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//Êó±ê¹â±êÀàĞÍ,ÊÖ£ºDC_HAND
-	this->wndclass.hIcon = LoadIcon(NULL, IDI_ERROR);									//Í¼±ê
-	this->wndclass.lpszClassName = TEXT("tetris");										//´°¿ÚÀàĞÍÃû
-	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//´°¿ÚÀàµÄ·ç¸ñ
+    this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,0,0));						//èƒŒæ™¯é¢œè‰²ç”»åˆ·
+	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//é¼ æ ‡å…‰æ ‡ç±»å‹,æ‰‹ï¼šDC_HAND
+	this->wndclass.hIcon = LoadIcon(NULL, IDI_ERROR);									//å›¾æ ‡
+	this->wndclass.lpszClassName = TEXT("tetris");										//çª—å£ç±»å‹å
+	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//çª—å£ç±»çš„é£æ ¼
+	this->wndclass.cbClsExtra = 0;
+	this->wndclass.cbWndExtra = 0;
+	this->wndclass.lpszMenuName = nullptr;
 }
 
 Win::Win(HINSTANCE hInstance)
 {
 	this->wndclass = { 0 };
-	this->wndclass.hInstance = hInstance;												//¾ä±ú
+	this->wndclass.hInstance = hInstance;												//å¥æŸ„
 	this->wndclass.lpfnWndProc = WindowProc;							
-	this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,255,255));					//±³¾°ÑÕÉ«»­Ë¢
-	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//Êó±ê¹â±êÀàĞÍ,ÊÖ£ºDC_HAND
-	this->wndclass.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IMG_ICON1));											//Í¼±ê
-	this->wndclass.lpszClassName = TEXT("tetris");										//´°¿ÚÀàĞÍÃû
-	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//´°¿ÚÀàµÄ·ç¸ñ
+	this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,255,255));					//èƒŒæ™¯é¢œè‰²ç”»åˆ·
+	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//é¼ æ ‡å…‰æ ‡ç±»å‹,æ‰‹ï¼šDC_HAND
+	this->wndclass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IMG_ICON1));				//å›¾æ ‡
+	this->wndclass.lpszClassName = TEXT("tetris");										//çª—å£ç±»å‹å
+	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//çª—å£ç±»çš„é£æ ¼
+	this->wndclass.cbClsExtra = 0;
+	this->wndclass.cbWndExtra = 0;
+	this->wndclass.lpszMenuName = nullptr;
+
 }
 
 void Win::register_class()
@@ -31,14 +38,14 @@ void Win::register_class()
 void Win::create_window(LPCTSTR name,int location_x,int location_y,int width,int high)
 {
 	this->hwnd=CreateWindow(
-		TEXT("tetris"),													 				//´°¿ÚÀàĞÍÃû
-		name,																			//´°¿Ú±êÌâ
-		WS_BORDER | WS_CAPTION | WS_MINIMIZEBOX  | WS_MAXIMIZEBOX | WS_SYSMENU | WS_SIZEBOX, //´°¿ÚµÄ·ç¸ñ
-		location_x, location_y,                                                         //´°¿Ú×óÉÏ½Ç×ø±ê£¨ÏñËØ£©
-		width, high,                                                               		//´°¿ÚµÄ¿íºÍ¸ß
-		NULL,                                                                   		//¸¸´°¿Ú¾ä±ú
-		NULL,                                                                   		//²Ëµ¥¾ä±ú
-		this->wndclass.hInstance,						                                //Ó¦ÓÃ³ÌĞòÊµÀı¾ä±ú
+		TEXT("tetris"),													 				//çª—å£ç±»å‹å
+		name,																			//çª—å£æ ‡é¢˜
+		WS_OVERLAPPEDWINDOW, 															//çª—å£çš„é£æ ¼
+		location_x, location_y,                                                         //çª—å£å·¦ä¸Šè§’åæ ‡ï¼ˆåƒç´ ï¼‰
+		width, high,                                                               		//çª—å£çš„å®½å’Œé«˜
+		NULL,                                                                   		//çˆ¶çª—å£å¥æŸ„
+		NULL,                                                                   		//èœå•å¥æŸ„
+		this->wndclass.hInstance,						                                //åº”ç”¨ç¨‹åºå®ä¾‹å¥æŸ„
 		NULL 
 	);
 	return ;
@@ -58,11 +65,11 @@ void Win::updata_window()
 
 void Win::loop_message()
 {
-	while (GetMessage(&this->msg, NULL, 0, 0))//GetMessage´Óµ÷ÓÃÏß³ÌµÄÏûÏ¢¶ÓÁĞÖĞÈ¡µÃÒ»¸öÏûÏ¢²¢·ÅÓÚmsg
+	while (GetMessage(&this->msg, NULL, 0, 0))//GetMessageä»è°ƒç”¨çº¿ç¨‹çš„æ¶ˆæ¯é˜Ÿåˆ—ä¸­å–å¾—ä¸€ä¸ªæ¶ˆæ¯å¹¶æ”¾äºmsg
 	{
-		//½«ĞéÄâ¼üÏûÏ¢×ª»»Îª×Ö·ûÏûÏ¢
+		//å°†è™šæ‹Ÿé”®æ¶ˆæ¯è½¬æ¢ä¸ºå­—ç¬¦æ¶ˆæ¯
 		TranslateMessage(&this->msg);
-		//½«ÏûÏ¢·Ö·¢¸ø´°¿Ú´¦Àíº¯Êı
+		//å°†æ¶ˆæ¯åˆ†å‘ç»™çª—å£å¤„ç†å‡½æ•°
 		DispatchMessage(&this->msg);
 	}
 	return ;
@@ -80,7 +87,6 @@ void Win::start_win(LPCTSTR name,int location_x,int location_y,int width,int hig
 	this->create_window(name,location_x,location_y,width,high);
 	this->show_window();
 	this->updata_window();
-	this->create_console();
 	this->loop_message();
 	return ;
 }
@@ -91,12 +97,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	switch (uMsg)
 	{
-		case WM_CLOSE://´°¿Ú¹Ø±ÕÏûÏ¢
+		case WM_CLOSE://çª—å£å…³é—­æ¶ˆæ¯
 			DestroyWindow(hWnd);
 			break;
-		case WM_DESTROY://´°¿ÚÏú»ÙÏûÏ¢
+		case WM_DESTROY://çª—å£é”€æ¯æ¶ˆæ¯
 			PostQuitMessage(0);
 			break;
+		return TRUE;
 	}
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);	//Ä¬ÈÏµÄ´°¿Ú´¦Àíº¯Êı
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);	//é»˜è®¤çš„çª—å£å¤„ç†å‡½æ•°
 }

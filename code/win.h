@@ -3,8 +3,8 @@
 #define WIN_ME
 
 /*
-    Ö÷´°¿Ú»æÖÆ
-    @auther:    ³ÌÖÇ
+    ä¸»çª—å£ç»˜åˆ¶
+    @auther:    ç¨‹æ™º
     @date:      2022.8.21
 */
 
@@ -23,25 +23,25 @@ class Win
     public:
         Win();
         Win(HINSTANCE hInstance);
-        //×¢²á´°¿ÚÀà
+        //æ³¨å†Œçª—å£ç±»
         void register_class(); 
-        //´´½¨´°¿Ú
+        //åˆ›å»ºçª—å£
         void create_window(LPCTSTR name,int location_x,int location_y,int width,int high);    
-        //ÏÔÊ¾´°¿Ú
+        //æ˜¾ç¤ºçª—å£
         void show_window();      
-        //¸üĞÂ´°¿Ú
+        //æ›´æ–°çª—å£
         void updata_window();     
-        //ÏûÏ¢Ñ­»·
+        //æ¶ˆæ¯å¾ªç¯
         void loop_message();
-        //´´½¨¿ØÖÆÌ¨´°¿Ú
+        //åˆ›å»ºæ§åˆ¶å°çª—å£
         void create_console();
 
 
-        //×Ü
+        //æ€»
         void start_win(LPCTSTR name,int location_x,int location_y,int width,int high);
 };
 
-//³ÌĞòÄÚÄ¬ÈÏ´°¿Ú´¦Àíº¯Êı
+//ç¨‹åºå†…é»˜è®¤çª—å£å¤„ç†å‡½æ•°
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 
