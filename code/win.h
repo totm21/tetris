@@ -35,14 +35,16 @@ class Win
         void loop_message();
         //创建控制台窗口
         void create_console();
-
-
+       
         //总
         void start_win(LPCTSTR name,int location_x,int location_y,int width,int high);
 };
 
 //程序内默认窗口处理函数
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+//按键处理函数
+void handle_key(WPARAM wParam,LPARAM lParam);
 
 
 

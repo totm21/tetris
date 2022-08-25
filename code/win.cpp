@@ -91,12 +91,17 @@ void Win::start_win(LPCTSTR name,int location_x,int location_y,int width,int hig
 	return ;
 }
 
+
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	HDC hDC;
 	PAINTSTRUCT ps;
 	switch (uMsg)
 	{
+		case WM_KEYDOWN://按键按下
+			handle_key(wParam,lParam);
+			break;
 		case WM_CLOSE://窗口关闭消息
 			DestroyWindow(hWnd);
 			break;
@@ -106,4 +111,10 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);	//默认的窗口处理函数
+}
+
+void handle_key(WPARAM wParam,LPARAM lParam)
+{
+	std::cout<<"当前按下的是: "<<wParam<<std::endl;
+	return;
 }
