@@ -116,5 +116,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 void handle_key(WPARAM wParam,LPARAM lParam)
 {
 	std::cout<<"当前按下的是: "<<wParam<<std::endl;
+	//Sleep(1000*5);
 	return;
 }
