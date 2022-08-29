@@ -44,12 +44,15 @@ make/middleware/win.o:code/cpp/win.cpp
 make/middleware/register.o:code/cpp/register.cpp
 	g++ $(UTF_GBK) -c code/cpp/register.cpp -o make/middleware/register.o
 
+run:
+	cd make && tetris.exe
+
 clean:
 	cd make/middleware && del *.o
 	cd make && del *.exe
 
-run:
-	cd make && tetris.exe
+clean_o:
+	cd make/middleware && del *.o
 
-.PHONY:clean run
+.PHONY:run clean clean_o
 
