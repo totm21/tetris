@@ -1,15 +1,18 @@
 
 //此处为官方头文件
+
 #include<iostream>
 #include<windows.h>
 #include<fstream>
 #include<string>
 
 //此处为扩展头文集
+#include"expands/lua/lua.hpp"
 #include"expands/json/json.h"
 
 //此处为自定义头文件
 #include"win.h"
+#include"register.h"
 
 HINSTANCE hInstance;
 
@@ -71,14 +74,28 @@ void readFileJson()
 
 int main()
 {
+
+	
     hInstance = GetModuleHandle(nullptr);
 	
 	AllocConsole();
     freopen("CONOUT$", "w", stdout);
 
+	lua_State *lua = luaL_newstate(); 
+    if(lua == nullptr)
+    {
+        return 0;
+    }
+
+    luaL_requiref(lua, "CFuncName", luaopen_C_Func_Name, 1);/*将C语言函数库注册到Lua环境中*/
+
 	Win win(hInstance);
     win.start_win(TEXT("俄罗斯方块"),200,100,1000,600);
     
+	luaL_openlibs(lua);
+    luaL_dofile(lua, "../code/lua/debugPrint.lua");
+	lua_close(lua);
+
 	while(true)
 	{
 		if(!win.loop_message())
@@ -87,6 +104,10 @@ int main()
 		}
 		
 	}
+
+	
+    
+    
     
     return 0;
 }

@@ -10,33 +10,46 @@ version :=
 
 all:tetris
 
-tetris:make/tetris.o make/resources.o make/json_reader.o make/json_writer.o make/json_value.o make/win.o 
-	g++ $(UTF_GBK) $(version) -o tetris make/tetris.o make/resources.o make/json_reader.o make/json_writer.o make/json_value.o make/win.o  -mwindows
+tetris:make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
+	make/middleware/json_writer.o make/middleware/json_value.o make/middleware/win.o \
+	make/middleware/register.o
+
+	g++ $(UTF_GBK) $(version) -o make/tetris \
+		make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
+		make/middleware/json_writer.o make/middleware/json_value.o make/middleware/win.o \
+		make/middleware/register.o  \
+	 	-mwindows -llua54
 
 #此处为资源文件编译!
-make/resources.o:resources/resources.rc
-	windres -i resources/resources.rc -o make/resources.o 
+make/middleware/resources.o:resources/resources.rc
+	windres -i resources/resources.rc -o make/middleware/resources.o 
 
 #此处为jsoncpp文件编译
-make/json_reader.o:code/cpp/expands/json_reader.cpp
-	g++ -c code/cpp/expands/json_reader.cpp -o make/json_reader.o
+make/middleware/json_reader.o:code/cpp/expands/json_reader.cpp
+	g++ -c code/cpp/expands/json_reader.cpp -o make/middleware/json_reader.o
 
-make/json_writer.o:code/cpp/expands/json_writer.cpp
-	g++ -c code/cpp/expands/json_writer.cpp -o make/json_writer.o
+make/middleware/json_writer.o:code/cpp/expands/json_writer.cpp
+	g++ -c code/cpp/expands/json_writer.cpp -o make/middleware/json_writer.o
 
-make/json_value.o:code/cpp/expands/json_value.cpp
-	g++ -c code/cpp/expands/json_value.cpp -o make/json_value.o
+make/middleware/json_value.o:code/cpp/expands/json_value.cpp
+	g++ -c code/cpp/expands/json_value.cpp -o make/middleware/json_value.o
 #此处jsoncpp文件编译结束
 
-make/tetris.o:code/cpp/tetris.cpp 
-	g++ $(UTF_GBK) -c code/cpp/tetris.cpp -o make/tetris.o 
+make/middleware/tetris.o:code/cpp/tetris.cpp 
+	g++ $(UTF_GBK) -c code/cpp/tetris.cpp -o make/middleware/tetris.o 
 	
-make/win.o:code/cpp/win.cpp
-	g++ $(UTF_GBK) -c code/cpp/win.cpp -o make/win.o
+make/middleware/win.o:code/cpp/win.cpp
+	g++ $(UTF_GBK) -c code/cpp/win.cpp -o make/middleware/win.o
 
+make/middleware/register.o:code/cpp/register.cpp
+	g++ $(UTF_GBK) -c code/cpp/register.cpp -o make/middleware/register.o
 
 clean:
-	del *.o *.exe
+	cd make/middleware && del *.o
+	cd make && del *.exe
 
-.PHONY:clean
+run:
+	cd make && tetris.exe
+
+.PHONY:clean run
 
