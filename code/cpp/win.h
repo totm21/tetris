@@ -12,7 +12,7 @@
 #include<windows.h>
 #include<string>
 
-#include"../resources/resources.h"
+#include"../../resources/resources.h"
 
 class Win
 {
