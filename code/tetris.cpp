@@ -79,6 +79,14 @@ int main()
 	Win win(hInstance);
     win.start_win(TEXT("俄罗斯方块"),200,100,1000,600);
     
+	while(true)
+	{
+		if(!win.loop_message())
+		{
+			break;
+		}
+		
+	}
     
     return 0;
 }

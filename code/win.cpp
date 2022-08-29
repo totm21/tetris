@@ -63,8 +63,18 @@ void Win::updata_window()
 	return ;
 }      
 
-void Win::loop_message()
+bool Win::loop_message()
 {
+	if(PeekMessage(&this->msg, NULL, 0, 0, PM_REMOVE))	//非阻塞式获取消息
+	{
+		if (msg.message == WM_QUIT)
+			return false;
+		//将虚拟键消息转换为字符消息
+		TranslateMessage(&this->msg);
+		//将消息分发给窗口处理函数
+		DispatchMessage(&this->msg);
+	}
+	/*
 	while (GetMessage(&this->msg, NULL, 0, 0))//GetMessage从调用线程的消息队列中取得一个消息并放于msg
 	{
 		//将虚拟键消息转换为字符消息
@@ -72,7 +82,8 @@ void Win::loop_message()
 		//将消息分发给窗口处理函数
 		DispatchMessage(&this->msg);
 	}
-	return ;
+	*/
+	return true;
 }
 
 void Win::create_console()

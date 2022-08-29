@@ -32,7 +32,7 @@ class Win
         //更新窗口
         void updata_window();     
         //消息循环
-        void loop_message();
+        bool loop_message();
         //创建控制台窗口
         void create_console();
        
