@@ -1,6 +1,6 @@
 
-#ifndef WIN_ME
-#define WIN_ME
+#ifndef _WIN_ME_
+#define _WIN_ME_
 
 /*
     主窗口绘制

@@ -1,5 +1,5 @@
-#ifndef REGISTER_ME
-#define REGISTER_ME
+#ifndef _REGISTER_ME_
+#define _REGISTER_ME_
 /*
     C函数注册给lua
     @auther:    程智
