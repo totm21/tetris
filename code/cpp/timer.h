@@ -33,7 +33,7 @@ class timers
         timer_one* add_timers(timer_one timer);                                         //添加定时器
         bool delete_timers();                                                           //删除定时器      
         bool update_timers();                                                           //更新定时器
-}
+};
 
 
 
