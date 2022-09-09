@@ -13,6 +13,7 @@
 //此处为自定义头文件
 #include"win.h"
 #include"register.h"
+#include"timer.h"
 
 HINSTANCE hInstance;
 
@@ -71,11 +72,15 @@ void readFileJson()
 	in.close();
 }
 */
-
+/*
+void* call_back(void* T)
+{
+	return nullptr;
+}
+*/
 int main()
 {
 
-	
     hInstance = GetModuleHandle(nullptr);
 	
 	AllocConsole();
@@ -102,6 +107,7 @@ int main()
 		{
 			break;
 		}
+		
 		
 	}
 

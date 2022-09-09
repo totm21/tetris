@@ -18,5 +18,41 @@ void timer_one::set_state_flag(bool flag)
 
 void* timer_one::run_call_back()
 {
-    return this->call_back(this->data);
+    if(this->state_flag)
+        return this->call_back(this->data);
+    else
+        return nullptr;
+}
+
+bool timer_one::operator >(timer_one& T)
+{
+    if(this->end_time>T.end_time)
+    {
+        return true;
+    }
+    else if(this->end_time==T.end_time)
+    {
+        if(this->start_time<=T.start_time)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool timer_one::operator <(timer_one& T)
+{
+    return !(*this>T);
+}
+
+
+
+timers::timers()
+{
+
+}
+
+timer_one* timers::add_timer_one(timer_one timer)
+{
+    return nullptr;
 }
