@@ -12,6 +12,7 @@
 class timer_one
 {
     private:
+    public:
         time_t start_time;                          //起始时间
         time_t end_time;                            //结束时间
         bool state_flag;                            //定时器状态  有效true 无效false(可能删除)
@@ -23,18 +24,28 @@ class timer_one
         void* run_call_back();                      //执行回调函数 
         bool operator >(timer_one&);                //大于号重载
 	    bool operator <(timer_one&);
+        bool operator ()(timer_one* A, timer_one* B);   //重载() 替换为比价函数
+        
+};
+
+//此处丑陋 需要更改
+struct CMP_TIMER
+{
+	bool operator ()(timer_one* A, timer_one* B);
 };
 
 //定时器组  外部调用
 class timers
 {
     private:
-        std::priority_queue <timer_one,std::vector<timer_one>,std::less<timer_one> > group_timers;     //优先队列
+
+    public:
+        std::priority_queue <timer_one*,std::vector<timer_one*>,CMP_TIMER> group_timers;     //优先队列
     public:
         timers();                                   
-        timer_one* add_timer_one(timer_one timer);                                      //添加定时器
+        timer_one* add_timer_one(timer_one *timer);                                      //添加定时器
         timer_one* add_timers(int time_ms,void* data,void* (*call_back)(void*));        //添加定时器                                 //添加定时器
-        bool delete_timers();                                                           //删除定时器      
+        bool delete_timers(timer_one* timer);                                           //删除定时器      
         bool update_timers();                                                           //更新定时器
 };
 

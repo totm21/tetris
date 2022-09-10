@@ -5,6 +5,7 @@
 #include<windows.h>
 #include<fstream>
 #include<string>
+#include<iterator>
 
 //此处为扩展头文集
 #include"expands/lua/lua.hpp"
@@ -100,6 +101,19 @@ int main()
 	luaL_openlibs(lua);
     luaL_dofile(lua, "../code/lua/debugPrint.lua");
 	lua_close(lua);
+
+	timers timer;
+	timer.add_timers(1000,nullptr,nullptr);
+	timer.add_timers(2000,nullptr,nullptr);
+	timer.add_timers(100,nullptr,nullptr);
+	while(!timer.group_timers.empty())
+	{
+		timer_one* tim=timer.group_timers.top();
+		std::cout<<tim->end_time<<std::endl;
+
+
+		timer.group_timers.pop();
+	}
 
 	while(true)
 	{

@@ -45,14 +45,42 @@ bool timer_one::operator <(timer_one& T)
     return !(*this>T);
 }
 
-
+bool CMP_TIMER::operator()(timer_one* A,timer_one* B)
+{
+    if(A->end_time>B->end_time)
+    {
+        return true;
+    }
+    else if(A->end_time==B->end_time)
+    {
+        if(A->start_time<=B->start_time)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 timers::timers()
 {
 
 }
 
-timer_one* timers::add_timer_one(timer_one timer)
+timer_one* timers::add_timer_one(timer_one* timer)
 {
-    return nullptr;
+    this->group_timers.push(timer);
+    return timer;
 }
+
+timer_one* timers::add_timers(int time_ms,void* data,void* (*call_back)(void*))
+{
+    timer_one *timer=new timer_one(time_ms,data,call_back);
+    return this->add_timer_one(timer);
+}
+
+bool timers::delete_timers(timer_one* timer)
+{
+    timer->set_state_flag(false);
+    return true;
+}
+
