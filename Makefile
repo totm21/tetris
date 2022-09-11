@@ -12,7 +12,7 @@ all:tetris
 
 tetris:make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
 	make/middleware/json_writer.o make/middleware/json_value.o make/middleware/win.o \
-	make/middleware/register.o make/middleware/timer.o
+	make/middleware/register.o make/middleware/timer.o \
 
 	g++ $(UTF_GBK) $(version) -o make/tetris \
 		make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \

@@ -73,12 +73,12 @@ void readFileJson()
 	in.close();
 }
 */
-/*
 void* call_back(void* T)
 {
+	int *t=(int*)T;
+	std::cout<<*t<<std::endl;
 	return nullptr;
 }
-*/
 int main()
 {
 
@@ -102,18 +102,14 @@ int main()
     luaL_dofile(lua, "../code/lua/debugPrint.lua");
 	lua_close(lua);
 
+	int arr[3]={1000,2000,100};
 	timers timer;
-	timer.add_timers(1000,nullptr,nullptr);
-	timer.add_timers(2000,nullptr,nullptr);
-	timer.add_timers(100,nullptr,nullptr);
-	while(!timer.group_timers.empty())
-	{
-		timer_one* tim=timer.group_timers.top();
-		std::cout<<tim->end_time<<std::endl;
-
-
-		timer.group_timers.pop();
-	}
+	timer_one* tim1=new timer_one(1000,(void*)(arr),call_back);
+	timer_one* tim2=new timer_one(2000,(void*)(arr+1),call_back);
+	timer_one* tim3=new timer_one(100,(void*)(arr+2),call_back);
+	timer.add_timer_one(tim1);
+	timer.add_timer_one(tim2);
+	timer.add_timer_one(tim3);
 
 	while(true)
 	{
@@ -121,13 +117,8 @@ int main()
 		{
 			break;
 		}
-		
-		
+		timer.update_timers();
 	}
-
-	
-    
-    
-    
+ 
     return 0;
 }
