@@ -3,6 +3,16 @@
 #ifndef _TIMER_ME_
 #define _TIMER_ME_
 
+/*
+    定时器实现--采用优先队列实现  
+    本定时器采用单例模式
+    还有另外一种时间轮定时器,但这个更适用于数据量大的情况,暂时优先队列就满足使用,所以暂时先不添加
+    后续考虑时间轮+优先队列 实现大数据量
+    @auther:    程智
+    @date:      2022.9.13
+    @alter:     2022.9.13
+*/
+
 #include<iostream>
 #include<vector>
 #include<queue>
