@@ -26,10 +26,11 @@ class timer_one
         long long start_time;                       //起始时间
         long long end_time;                         //结束时间
         bool state_flag;                            //定时器状态  有效true 无效false(可能删除)
-        void* data;                                 //回调函数所需要的数据
+        void* data;                                 //回调函数所需要的数据  注意该数据由调用者在回调中释放!!!
         void* (*call_back)(void*);                  //回调函数
     public:
         timer_one(int time_ms,void* data,void* (*call_back)(void*));     //初始化函数  参数为 定时时长+回调函数
+        ~timer_one();
         long long get_start_time();
         long long get_end_time();
         bool compare_time_t(long long time_);       //时间比较
@@ -61,7 +62,6 @@ class timers
         bool update_timers();                                                           //更新定时器
 };
 
-
-
+timers timer();                            //单例定义 其他不可定义
 
 #endif
