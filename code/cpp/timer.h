@@ -20,7 +20,7 @@
 #include<ctime>
 
 //单个定时器定义
-class timer_one
+class Timer_one
 {
     private:
         long long start_time;                       //起始时间
@@ -29,8 +29,8 @@ class timer_one
         void* data;                                 //回调函数所需要的数据  注意该数据由调用者在回调中释放!!!
         void* (*call_back)(void*);                  //回调函数
     public:
-        timer_one(int time_ms,void* data,void* (*call_back)(void*));     //初始化函数  参数为 定时时长+回调函数
-        ~timer_one();
+        Timer_one(int time_ms,void* data,void* (*call_back)(void*));     //初始化函数  参数为 定时时长+回调函数
+        ~Timer_one();
         long long get_start_time();
         long long get_end_time();
         bool compare_time_t(long long time_);       //时间比较
@@ -38,30 +38,30 @@ class timer_one
         bool get_state_flag();                      //获得定时器状态
         bool delete_timers();                       //伪删除                        
         void* run_call_back();                      //执行回调函数 
-        bool operator >(timer_one&);                //大于号重载
-	    bool operator <(timer_one&);  
+        bool operator >(Timer_one&);                //大于号重载
+	    bool operator <(Timer_one&);  
 };
 
 //此处是定义排序  尝试重定义自己的() 但显示优先队列没有默认构造函数 暂时无法解决 丑陋也就先丑陋着吧
 class TIME_ONE_COMPARE
 {
     public:
-        bool operator ()(timer_one*,timer_one*);  
+        bool operator ()(Timer_one*,Timer_one*);  
 };
 
 //定时器组  外部调用
-class timers
+class Timers
 {
     private:
-        std::priority_queue <timer_one*,std::vector<timer_one*>,TIME_ONE_COMPARE> group_timers;     //优先队列
+        std::priority_queue <Timer_one*,std::vector<Timer_one*>,TIME_ONE_COMPARE> group_timers;     //优先队列
     public:
-        timers();                                   
-        timer_one* add_timer_one(timer_one *timer);                                     //添加定时器
-        timer_one* add_timers(int time_ms,void* data,void* (*call_back)(void*));        //添加定时器                          
-        bool delete_timers(timer_one* timer);                                           //删除定时器      
+        Timers();                                   
+        Timer_one* add_timer_one(Timer_one *timer);                                     //添加定时器
+        Timer_one* add_timers(int time_ms,void* data,void* (*call_back)(void*));        //添加定时器                          
+        bool delete_timers(Timer_one* timer);                                           //删除定时器      
         bool update_timers();                                                           //更新定时器
 };
 
-timers timer();                            //单例定义 其他不可定义
+Timers timers();                            //单例定义 其他不可定义
 
 #endif

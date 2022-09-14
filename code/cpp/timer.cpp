@@ -1,7 +1,7 @@
 
 #include"timer.h"
 
-timer_one::timer_one(int time_ms,void* data,void* (*call_back)(void*))
+Timer_one::Timer_one(int time_ms,void* data,void* (*call_back)(void*))
 {
     this->start_time=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     this->end_time=this->start_time+time_ms;
@@ -9,18 +9,22 @@ timer_one::timer_one(int time_ms,void* data,void* (*call_back)(void*))
     this->data=data;
     this->call_back=call_back;
 }
+Timer_one::~Timer_one()
+{
+    
+}
 
-long long timer_one::get_start_time()
+long long Timer_one::get_start_time()
 {
     return this->start_time;
 }
 
-long long timer_one::get_end_time()
+long long Timer_one::get_end_time()
 {
     return this->end_time;
 }
 
-bool timer_one::compare_time_t(long long time_)
+bool Timer_one::compare_time_t(long long time_)
 {
     if(time_>=this->end_time)
     {
@@ -29,24 +33,24 @@ bool timer_one::compare_time_t(long long time_)
     return false;
 }
 
-void timer_one::set_state_flag(bool flag)
+void Timer_one::set_state_flag(bool flag)
 {
     this->state_flag=flag;
     return ;
 }
 
-bool timer_one::get_state_flag()
+bool Timer_one::get_state_flag()
 {
     return this->state_flag;
 }
 
-bool timer_one::delete_timers()
+bool Timer_one::delete_timers()
 {
     this->state_flag=false;
     return true;
 }
 
-void* timer_one::run_call_back()
+void* Timer_one::run_call_back()
 {
     if(this->state_flag)
         return this->call_back(this->data);
@@ -54,7 +58,7 @@ void* timer_one::run_call_back()
         return nullptr;
 }
 
-bool timer_one::operator >(timer_one& T)
+bool Timer_one::operator >(Timer_one& T)
 {
     if(this->end_time>T.end_time)
     {
@@ -70,12 +74,12 @@ bool timer_one::operator >(timer_one& T)
     return false;
 }
 
-bool timer_one::operator <(timer_one& T)
+bool Timer_one::operator <(Timer_one& T)
 {
     return !(*this>T);
 }
 
-bool TIME_ONE_COMPARE::operator ()(timer_one *A,timer_one *B)
+bool TIME_ONE_COMPARE::operator ()(Timer_one *A,Timer_one *B)
 {
     if(A->get_end_time()>B->get_end_time())
     {
@@ -91,12 +95,12 @@ bool TIME_ONE_COMPARE::operator ()(timer_one *A,timer_one *B)
     return false;
 }
 
-timers::timers()
+Timers::Timers()
 {
 
 }
 
-timer_one* timers::add_timer_one(timer_one* timer)
+Timer_one* Timers::add_timer_one(Timer_one* timer)
 {
     if(timer==nullptr)
         return nullptr;
@@ -104,13 +108,13 @@ timer_one* timers::add_timer_one(timer_one* timer)
     return timer;
 }
 
-timer_one* timers::add_timers(int time_ms,void* data,void* (*call_back)(void*))
+Timer_one* Timers::add_timers(int time_ms,void* data,void* (*call_back)(void*))
 {
-    timer_one *timer=new timer_one(time_ms,data,call_back);
+    Timer_one *timer=new Timer_one(time_ms,data,call_back);
     return this->add_timer_one(timer);
 }
 
-bool timers::delete_timers(timer_one* timer)
+bool Timers::delete_timers(Timer_one* timer)
 {
     if(timer==nullptr)
         return false;
@@ -118,12 +122,12 @@ bool timers::delete_timers(timer_one* timer)
     return true;
 }
 
-bool timers::update_timers()
+bool Timers::update_timers()
 {
     long long now_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     while(!this->group_timers.empty())
     {
-        timer_one* top_timer=this->group_timers.top();
+        Timer_one* top_timer=this->group_timers.top();
         if(top_timer->compare_time_t(now_time))
         {
             if(top_timer->get_state_flag())
