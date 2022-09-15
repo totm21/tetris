@@ -38,3 +38,9 @@ bool Log::file_open(std::string name)
     this->file_name=name;
     return true;
 }
+
+void Log::log_write_entity(log_level level,std::string message,const char* file,const char* fun,int line)
+{
+    std::cout<<file<<' '<<fun<<' '<<line<<std::endl;
+    return ;
+}
