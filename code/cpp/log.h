@@ -35,9 +35,11 @@ class Log
     public:
         Log();
         ~Log();
-        std::string get_date_string();              //获取当前日期的字符串 例：2022:9:14
+        std::string get_date_string();              //获取当前日期的字符串 例：2022_9_14
+        std::string get_date_detail_string();       //获取当前日期的字符串(详细) 例：2022:9:14
         bool file_open(std::string name);           //打开文件
-        void log_write_entity(log_level level,std::string message,const char* file,const char* fun,int line);            
+        void log_write_entity(log_level level,std::string message,const char* file,const char* fun,int line);
+        void log_write_entity_log(log_level level,std::string message,const char* file,const char* fun,int line);          
 };
 
 
