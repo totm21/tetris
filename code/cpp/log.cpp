@@ -46,13 +46,47 @@ bool Log::file_open(std::string name)
     return true;
 }
 
+void Log::set_console_color(int n)
+{
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), n);
+	return;
+}
+
+void Log::cout_console_color_table()
+{
+    for(int i=0;i<256;i++)
+    {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), i);
+        std::cout<<std::setw(5)<<i;
+        if((i+1)%16==0)
+        {
+            std::cout<<std::endl;
+        }
+    }
+    return ;
+}
+
 void Log::log_write_entity(log_level level,std::string message,const char* file,const char* fun,int line)
 {
     std::string data=this->get_date_string();
     switch(level)
     {
         case log:
-            this->out<<this->get_date_detail_string()<<'|'<<file<<"->"<<fun<<"->"<<line<<"----"<<message<<std::endl;
+            this->out<<this->get_date_detail_string()<<" | "<<file<<" -> "<<fun<<" -> "<<line<<"----"<<message<<std::endl;
+            this->set_console_color(2);
+            break;
+        case error:
+            this->set_console_color(4);
+            break;
+        case warn:
+            this->set_console_color(6);
+            break;
+        case info:
+            this->set_console_color(7);
+            break;
     }
+    std::cout<<this->get_date_detail_string()<<" | "<<file<<" -> "<<fun<<" -> "<<line<<"----"<<message<<std::endl;
+    this->set_console_color(7);
     return ;
 }
+

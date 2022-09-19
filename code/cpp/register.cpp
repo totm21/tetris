@@ -5,7 +5,7 @@
 /*所要调用的函数格式*/ //标准格式
 int C_Func_Child(lua_State* L)
 {
-	printf("it's standard\n");
+	printf("register test\n");
 	return 0;
 }
 

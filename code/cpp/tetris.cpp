@@ -103,9 +103,6 @@ int main()
     luaL_dofile(lua, "../code/lua/debugPrint.lua");
 	lua_close(lua);
 
-	Log *log=new Log();
-	std::string mess = "DD";
-	log->LOG_WRITE(log_level::log,mess);
 	int arr[3]={1000,2000,100};
 	Timers timer;
 	Timer_one* tim1=new Timer_one(1000,(void*)(arr),call_back);
