@@ -30,7 +30,7 @@ class Win
         //显示窗口
         void show_window();      
         //更新窗口
-        void updata_window();     
+        void update_window();     
         //消息循环
         bool loop_message();
         //创建控制台窗口

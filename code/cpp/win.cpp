@@ -1,6 +1,11 @@
 
 #include"Win.h"
 
+bool g_bNcLButtonDown = false;
+POINT g_kLastMousePos;
+POINT g_kCurMousePos;
+RECT g_kCurWindowRect;
+
 Win::Win()
 {
     this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,0,0));						//背景颜色画刷
@@ -57,7 +62,7 @@ void Win::show_window()
 	return ;
 }      
 
-void Win::updata_window()
+void Win::update_window()
 {
 	UpdateWindow(this->hwnd);
 	return ;
@@ -83,6 +88,29 @@ bool Win::loop_message()
 		DispatchMessage(&this->msg);
 	}
 	*/
+	if (g_bNcLButtonDown)
+	{
+		//有时候客户端会卡顿，一旦不能收到窗口消息，g_bNcLButtonDown可能会一直为true，导致bug。
+		//解决办法是，这里总是判断鼠标左键是否按下。从系统层面获取鼠标左键是否按下。
+		if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+		{
+			::GetCursorPos(&g_kCurMousePos);
+			const int nDeltaX = g_kCurMousePos.x - g_kLastMousePos.x;
+			const int nDeltaY = g_kCurMousePos.y - g_kLastMousePos.y;
+			if (nDeltaX < -1 || nDeltaX > 1 || nDeltaY < -1 || nDeltaY > 1)
+			{
+				g_kCurWindowRect.left += nDeltaX;
+				g_kCurWindowRect.top += nDeltaY;
+				g_kLastMousePos = g_kCurMousePos;
+				//执行移动操作的时候不要更改窗口size。
+				::SetWindowPos(this->hwnd, HWND_NOTOPMOST, g_kCurWindowRect.left, g_kCurWindowRect.top, g_kCurWindowRect.right, g_kCurWindowRect.bottom, SWP_NOSIZE);
+			}
+		}
+		else
+		{
+			g_bNcLButtonDown = false;
+		}
+	}
 	return true;
 }
 
@@ -97,7 +125,7 @@ void Win::start_win(LPCTSTR name,int location_x,int location_y,int width,int hig
 	this->register_class();
 	this->create_window(name,location_x,location_y,width,high);
 	this->show_window();
-	this->updata_window();
+	this->update_window();
 	this->loop_message();
 	return ;
 }
@@ -112,6 +140,29 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_KEYDOWN://按键按下
 			handle_key(wParam,lParam);
+			break;
+		case WM_SYSCOMMAND:
+			switch (wParam & 0xfff0)
+			{
+				case SC_KEYMENU:
+				case SC_MOUSEMENU:
+					//拦截左侧小菜单,不要通知给默认的消息处理函数
+					return 0;
+				case SC_MOVE:
+					if (g_bNcLButtonDown==false)
+					{
+						//鼠标开始拖动标题栏，我们的逻辑开始执行
+						g_bNcLButtonDown = true;
+						::GetCursorPos(&g_kLastMousePos);
+						::GetWindowRect(hWnd, &g_kCurWindowRect);
+					}
+					//拦截用户拖拽操作,不要通知给默认的消息处理函数
+					return 0;
+					break;
+			}
+			break;
+		case WM_NCRBUTTONDOWN:
+			g_bNcLButtonDown = false;
 			break;
 		case WM_CLOSE://窗口关闭消息
 			DestroyWindow(hWnd);

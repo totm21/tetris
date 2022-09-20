@@ -1,6 +1,8 @@
 
 #include"log.h"
 
+Log* logs=new Log();
+
 Log::Log()
 {
     this->file_name="";
@@ -37,7 +39,7 @@ bool Log::file_open(std::string name)
         this->out.close();
         this->file_name="";
     }
-    this->out.open("../data/log/"+name,std::ios::out);
+    this->out.open("../data/log/"+name+".txt",std::ios::app);
     if(!this->out.is_open())
     {
         return false;
@@ -69,19 +71,23 @@ void Log::cout_console_color_table()
 void Log::log_write_entity(log_level level,std::string message,const char* file,const char* fun,int line)
 {
     std::string data=this->get_date_string();
+    if(data!=this->file_name)
+    {
+        this->file_open(data);
+    }
     switch(level)
     {
-        case log:
+        case Logs:
             this->out<<this->get_date_detail_string()<<" | "<<file<<" -> "<<fun<<" -> "<<line<<"----"<<message<<std::endl;
             this->set_console_color(2);
             break;
-        case error:
+        case Error:
             this->set_console_color(4);
             break;
-        case warn:
+        case Warn:
             this->set_console_color(6);
             break;
-        case info:
+        case Info:
             this->set_console_color(7);
             break;
     }

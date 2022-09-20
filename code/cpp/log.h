@@ -19,17 +19,17 @@
 #include<iomanip>
 #include<windows.h>
 
-
 #define LOG_WRITE(level,message) log_write_entity(level,message,__FILE__,__FUNCTION__,__LINE__)
 
 enum log_level
 {
-    log = 0,                                       //向日志文件输出 控制台绿色输出
-    error = 1,                                     //红字输出
-    warn = 2,                                      //黄字输出
-    info = 3,                                      //白字输出
+    Logs    =   0,                                       //向日志文件输出 控制台绿色输出
+    Error   =   1,                                     //红字输出
+    Warn    =   2,                                      //黄字输出
+    Info    =   3,                                      //白字输出
 };
 
+//日志函数
 class Log
 {
     private:
@@ -46,6 +46,6 @@ class Log
         void log_write_entity(log_level level,std::string message,const char* file,const char* fun,int line);
 };
 
-
+extern Log* logs;
 
 #endif

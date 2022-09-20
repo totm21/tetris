@@ -1,6 +1,8 @@
 
 #include"timer.h"
 
+Timers* timers=new Timers();
+
 Timer_one::Timer_one(int time_ms,void* data,void* (*call_back)(void*))
 {
     this->start_time=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();

@@ -103,14 +103,14 @@ int main()
     luaL_dofile(lua, "../code/lua/debugPrint.lua");
 	lua_close(lua);
 
+	logs->LOG_WRITE(Logs,"这是一个测试 希望你能看到");
 	int arr[3]={1000,2000,100};
-	Timers timer;
 	Timer_one* tim1=new Timer_one(1000,(void*)(arr),call_back);
 	Timer_one* tim2=new Timer_one(2000,(void*)(arr+1),call_back);
 	Timer_one* tim3=new Timer_one(100,(void*)(arr+2),call_back);
-	timer.add_timer_one(tim1);
-	timer.add_timer_one(tim2);
-	timer.add_timer_one(tim3);
+	timers->add_timer_one(tim1);
+	timers->add_timer_one(tim2);
+	timers->add_timer_one(tim3);
 
 	while(true)
 	{
@@ -118,7 +118,7 @@ int main()
 		{
 			break;
 		}
-		timer.update_timers();
+		timers->update_timers();
 	}
  
     return 0;

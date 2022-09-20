@@ -18,6 +18,7 @@
 #include<queue>
 #include<chrono>
 #include<ctime>
+#include"log.h"
 
 //单个定时器定义
 class Timer_one
@@ -62,6 +63,6 @@ class Timers
         bool update_timers();                                                           //更新定时器
 };
 
-Timers timers();                            //单例定义 其他不可定义
+extern Timers* timers;
 
 #endif
