@@ -16,6 +16,9 @@ Win::Win()
 	this->wndclass.cbClsExtra = 0;
 	this->wndclass.cbWndExtra = 0;
 	this->wndclass.lpszMenuName = nullptr;
+	this->hdc = GetDC(hwnd);
+	this->pen=CreatePen(PS_SOLID, 1, RGB(255,0,0));
+	SelectObject( this->hdc, this->pen );
 }
 
 Win::Win(HINSTANCE hInstance)
@@ -31,8 +34,15 @@ Win::Win(HINSTANCE hInstance)
 	this->wndclass.cbClsExtra = 0;
 	this->wndclass.cbWndExtra = 0;
 	this->wndclass.lpszMenuName = nullptr;
-
+	//this->pen=CreatePen(PS_SOLID, 1, RGB(255,0,0));
+	//SelectObject( this->hdc, this->pen );
 }
+
+Win::~Win()
+{
+	ReleaseDC(hwnd,hdc);
+}
+
 
 void Win::register_class()
 {
@@ -53,6 +63,7 @@ void Win::create_window(LPCTSTR name,int location_x,int location_y,int width,int
 		this->wndclass.hInstance,						                                //应用程序实例句柄
 		NULL 
 	);
+	this->hdc = GetDC(this->hwnd);
 	return ;
 }
 
@@ -175,9 +186,25 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);	//默认的窗口处理函数
 }
 
+void Win::creat_pen(int type,int pixel,COLORREF color)
+{
+	DeleteObject(this->pen);
+	this->pen=CreatePen(type,pixel,color);
+	SelectObject( this->hdc, this->pen );
+	return;
+}
+
+void Win::draw_pixel(int x,int y)
+{
+	SetPixel(hdc,x,y,RGB(0,0,255));
+	return ;
+}
+
 void handle_key(WPARAM wParam,LPARAM lParam)
 {
 	std::cout<<"当前按下的是: "<<wParam<<std::endl;
 	//Sleep(1000*5);
 	return;
 }
+
+

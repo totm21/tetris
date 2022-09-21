@@ -112,6 +112,7 @@ int main()
 	timers->add_timer_one(tim2);
 	timers->add_timer_one(tim3);
 
+	win.draw_pixel(100,100);
 	while(true)
 	{
 		if(!win.loop_message())
