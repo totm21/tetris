@@ -1,4 +1,3 @@
 
 
-#define IMG_ICON1 128
-
+#define IMG_ICON_HUANXIONG 1

@@ -14,19 +14,25 @@
 
 #include"../../resources/resources.h"
 
+/*
+    窗口申请函数 --
+    @auther:    程智
+    @date:      2022.9.24
+    @alter:     2022.9.24
+*/
+
 class Win
 {
     private:
         WNDCLASS wndclass;
         HWND hwnd;
         MSG msg;
-        HDC hdc;        //dc
-        HPEN pen;       //画笔
-        HBRUSH hbrush;  //画刷
     public:
         Win();
         Win(HINSTANCE hInstance);
         ~Win();
+        //设置句柄
+        void set_hInstance(HINSTANCE hInstance,int define_img);
         //注册窗口类
         void register_class(); 
         //创建窗口
@@ -43,11 +49,7 @@ class Win
         //总
         void start_win(LPCTSTR name,int location_x,int location_y,int width,int high);
 
-
-        //画笔部分
-        void creat_pen(int type,int pixel,COLORREF color);
-        //画点
-        void draw_pixel(int x,int y);
+        HWND get_hwnd();
 };
 
 //程序内默认窗口处理函数
@@ -56,6 +58,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 //按键处理函数
 void handle_key(WPARAM wParam,LPARAM lParam);
 
-
+extern Win* win;
 
 #endif

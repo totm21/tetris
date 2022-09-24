@@ -6,19 +6,19 @@ POINT g_kLastMousePos;
 POINT g_kCurMousePos;
 RECT g_kCurWindowRect;
 
+Win* win=new Win();
+
 Win::Win()
 {
-    this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,0,0));						//背景颜色画刷
+	this->wndclass = { 0 };
+	this->wndclass.lpfnWndProc = WindowProc;
+    this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,255,255));						//背景颜色画刷
 	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//鼠标光标类型,手：DC_HAND
-	this->wndclass.hIcon = LoadIcon(NULL, IDI_ERROR);									//图标
 	this->wndclass.lpszClassName = TEXT("tetris");										//窗口类型名
 	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//窗口类的风格
 	this->wndclass.cbClsExtra = 0;
 	this->wndclass.cbWndExtra = 0;
 	this->wndclass.lpszMenuName = nullptr;
-	this->hdc = GetDC(hwnd);
-	this->pen=CreatePen(PS_SOLID, 1, RGB(255,0,0));
-	SelectObject( this->hdc, this->pen );
 }
 
 Win::Win(HINSTANCE hInstance)
@@ -28,21 +28,23 @@ Win::Win(HINSTANCE hInstance)
 	this->wndclass.lpfnWndProc = WindowProc;							
 	this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,255,255));					//背景颜色画刷
 	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//鼠标光标类型,手：DC_HAND
-	this->wndclass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IMG_ICON1));				//图标
+	this->wndclass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IMG_ICON_HUANXIONG));				//图标
 	this->wndclass.lpszClassName = TEXT("tetris");										//窗口类型名
 	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//窗口类的风格
 	this->wndclass.cbClsExtra = 0;
 	this->wndclass.cbWndExtra = 0;
 	this->wndclass.lpszMenuName = nullptr;
-	//this->pen=CreatePen(PS_SOLID, 1, RGB(255,0,0));
-	//SelectObject( this->hdc, this->pen );
 }
 
 Win::~Win()
 {
-	ReleaseDC(hwnd,hdc);
 }
 
+void Win::set_hInstance(HINSTANCE hInstance,int define_img)
+{
+	this->wndclass.hInstance = hInstance;												//句柄
+	this->wndclass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(define_img));				//图标
+}
 
 void Win::register_class()
 {
@@ -63,7 +65,6 @@ void Win::create_window(LPCTSTR name,int location_x,int location_y,int width,int
 		this->wndclass.hInstance,						                                //应用程序实例句柄
 		NULL 
 	);
-	this->hdc = GetDC(this->hwnd);
 	return ;
 }
 
@@ -141,11 +142,13 @@ void Win::start_win(LPCTSTR name,int location_x,int location_y,int width,int hig
 	return ;
 }
 
-
+HWND Win::get_hwnd()
+{
+	return this->hwnd;
+}
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	HDC hDC;
 	PAINTSTRUCT ps;
 	switch (uMsg)
 	{
@@ -184,20 +187,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);	//默认的窗口处理函数
-}
-
-void Win::creat_pen(int type,int pixel,COLORREF color)
-{
-	DeleteObject(this->pen);
-	this->pen=CreatePen(type,pixel,color);
-	SelectObject( this->hdc, this->pen );
-	return;
-}
-
-void Win::draw_pixel(int x,int y)
-{
-	SetPixel(hdc,x,y,RGB(0,0,255));
-	return ;
 }
 
 void handle_key(WPARAM wParam,LPARAM lParam)

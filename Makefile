@@ -13,11 +13,13 @@ all:tetris
 tetris:make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
 	make/middleware/json_writer.o make/middleware/json_value.o make/middleware/win.o \
 	make/middleware/register.o make/middleware/timer.o make/middleware/log.o \
+	make/middleware/graphics.o \
 
 	g++ $(UTF_GBK) $(version) -o make/tetris \
 		make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
 		make/middleware/json_writer.o make/middleware/json_value.o make/middleware/win.o \
 		make/middleware/register.o make/middleware/timer.o make/middleware/log.o \
+		make/middleware/graphics.o \
 	 	-mwindows -llua54
 
 #此处为资源文件编译!
@@ -49,6 +51,9 @@ make/middleware/timer.o:code/cpp/timer.cpp
 
 make/middleware/log.o:code/cpp/log.cpp
 	g++ $(UTF_GBK) -c code/cpp/log.cpp -o make/middleware/log.o
+
+make/middleware/graphics.o:code/cpp/graphics.cpp
+	g++ $(UTF_GBK) -c code/cpp/graphics.cpp -o make/middleware/graphics.o
 
 run:
 	cd make && tetris.exe

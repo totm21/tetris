@@ -16,6 +16,7 @@
 #include"register.h"
 #include"timer.h"
 #include"log.h"
+#include"graphics.h"
 
 HINSTANCE hInstance;
 
@@ -96,14 +97,21 @@ int main()
 
     luaL_requiref(lua, "CFuncName", luaopen_C_Func_Name, 1);/*将C语言函数库注册到Lua环境中*/
 
-	Win win(hInstance);
-    win.start_win(TEXT("俄罗斯方块"),200,100,1000,600);
-    
+	win->set_hInstance(hInstance, IMG_ICON_HUANXIONG);
+    win->start_win(TEXT("俄罗斯方块"),200,100,1000,600);
+    graphics->init(win->get_hwnd());
+
 	luaL_openlibs(lua);
     luaL_dofile(lua, "../code/lua/debugPrint.lua");
 	lua_close(lua);
 
 	logs->LOG_WRITE(Logs,"这是一个测试 希望你能看到");
+
+	for(int i=100;i<200;i++)
+	{
+		graphics->draw_pixel(i,100);
+	}
+
 	int arr[3]={1000,2000,100};
 	Timer_one* tim1=new Timer_one(1000,(void*)(arr),call_back);
 	Timer_one* tim2=new Timer_one(2000,(void*)(arr+1),call_back);
@@ -112,10 +120,9 @@ int main()
 	timers->add_timer_one(tim2);
 	timers->add_timer_one(tim3);
 
-	win.draw_pixel(100,100);
 	while(true)
 	{
-		if(!win.loop_message())
+		if(!win->loop_message())
 		{
 			break;
 		}
