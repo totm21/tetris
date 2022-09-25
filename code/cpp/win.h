@@ -14,13 +14,6 @@
 
 #include"../../resources/resources.h"
 
-/*
-    窗口申请函数 --
-    @auther:    程智
-    @date:      2022.9.24
-    @alter:     2022.9.24
-*/
-
 class Win
 {
     private:

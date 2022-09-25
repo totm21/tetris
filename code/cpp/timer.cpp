@@ -147,3 +147,24 @@ bool Timers::update_timers()
     }
     return true;
 }
+
+Timing::Timing()
+{
+    this->start_time=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+} 
+
+Timing::~Timing()
+{
+
+}
+
+long long Timing::get_duration()
+{
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()-this->start_time;
+}
+
+void Timing::restart()
+{
+    this->start_time=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+} 
+

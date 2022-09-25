@@ -127,3 +127,10 @@ void Graphics::draw_line(Dot2 dot1,Dot2 dot2,bool check,COLORREF color)
     return ;
 }
 
+//大体实现为连接三条线
+void draw_triangle(int x1,int y1,int x2,int y2,int x3,int y3,bool check,COLORREF color)
+{
+    return;
+}
+
+

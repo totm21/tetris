@@ -8,6 +8,7 @@
     本定时器采用单例模式
     还有另外一种时间轮定时器,但这个更适用于数据量大的情况,暂时优先队列就满足使用,所以暂时先不添加
     后续考虑时间轮+优先队列 实现大数据量
+    以及时间相关class和函数
     @auther:    程智
     @date:      2022.9.13
     @alter:     2022.9.13
@@ -61,6 +62,19 @@ class Timers
         Timer_one* add_timers(int time_ms,void* data,void* (*call_back)(void*));        //添加定时器                          
         bool delete_timers(Timer_one* timer);                                           //删除定时器      
         bool update_timers();                                                           //更新定时器
+};
+
+//计时器组
+class Timing
+{
+    private:
+        long long start_time;                       //起始时间
+    public:
+        Timing();   
+        ~Timing();   
+        long long get_duration();                   //获得从开始到现在的时长
+        void restart();                             //重新开始记录
+
 };
 
 extern Timers* timers;
