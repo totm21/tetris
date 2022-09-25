@@ -112,6 +112,8 @@ int main()
 		graphics->draw_pixel(i,100);
 	}
 
+	graphics->draw_line(200,100,0,0,true);
+
 	int arr[3]={1000,2000,100};
 	Timer_one* tim1=new Timer_one(1000,(void*)(arr),call_back);
 	Timer_one* tim2=new Timer_one(2000,(void*)(arr+1),call_back);

@@ -8,6 +8,9 @@ UTF_GBK :=-finput-charset=UTF-8 -fexec-charset=GBK
 #编译时 库文件链接策略   默认是动态  静态请输入:make version=-static  
 version := 
 
+#删除单个文件时使用  例如 make delete name=log.o 默认为make/middleware文件夹其他请自行调整(意义不大)
+name := 
+
 all:tetris
 
 tetris:make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
@@ -65,5 +68,13 @@ clean:
 clean_o:
 	cd make/middleware && del *.o
 
-.PHONY:run clean clean_o
+#重新生成
+regenerate:
+	make clean
+	make
+
+delete:
+	cd make/middleware && del $(name)
+
+.PHONY:run clean clean_o regenerate delete
 
