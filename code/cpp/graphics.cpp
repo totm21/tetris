@@ -133,20 +133,33 @@ void Graphics::draw_triangle(int x1,int y1,int x2,int y2,int x3,int y3,bool chec
     return;
 }
 
-//从内存中渲染画面-- 0-1 ms  后面再改
-void Graphics::test()
-{
-   COLORREF *arr = (COLORREF*) calloc(1920*1080, sizeof(COLORREF));
+COLORREF *arr = (COLORREF*) calloc(1920*1080, sizeof(COLORREF));
     /* Filling array here */
     /* ... */
 
-    // Creating temp bitmap
-    HBITMAP map = CreateBitmap(1920, // width. 512 in my case
+    // Temp HDC to copy picture
+HBITMAP map = CreateBitmap(1920, // width. 512 in my case
                             1080, // height
                             1, // Color Planes, unfortanutelly don't know what is it actually. Let it be 1
                             8*4, // Size of memory for one pixel in bits (in win32 4 bytes = 4*8 bits)
                             (void*) arr); // pointer to array
-    // Temp HDC to copy picture
+    // Creating temp bitmap
+
+//从内存中渲染画面-- 0-1 ms  后面再改
+void Graphics::test()
+{
+    for(int i=0;i<100;i++)
+    {
+        for(int j=0;j<100;j++)
+        {
+            arr[i*1920+j]=RGB(0,255,0);
+        }
+    }
+    //刷新————存档
+    SetBitmapBits(map,1920*1080,arr);
+    
+    
+    
     HDC src = CreateCompatibleDC(this->hdc); // hdc - Device context for window, I've got earlier with GetDC(hWnd) or GetDC(NULL);
     SelectObject(src, map); // Inserting picture into our temp HDC
     // Copy image from temp HDC to window
