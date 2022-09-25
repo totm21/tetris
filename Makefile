@@ -68,6 +68,9 @@ clean:
 clean_o:
 	cd make/middleware && del *.o
 
+clean_log:
+	cd data/log && del *.txt
+
 #重新生成
 regenerate:
 	make clean
@@ -76,5 +79,5 @@ regenerate:
 delete:
 	cd make/middleware && del $(name)
 
-.PHONY:run clean clean_o regenerate delete
+.PHONY:run clean clean_o regenerate delete clean_log
 

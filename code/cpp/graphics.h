@@ -38,6 +38,7 @@ class Graphics
         void draw_pixel(int x,int y,COLORREF color=RGB(0,0,0)); //绘制像素点
         void draw_pixel(Dot2 dot,COLORREF color=RGB(0,0,0));    //绘制像素点
 
+        //后续推出优化版 边缘渲染  但暂时先不处理
         void draw_line(int x1,int y1,int x2,int y2,bool check=false,COLORREF color=RGB(0,0,0));  //绘制线
         void draw_line(Dot2 dot1,Dot2 dot2,bool check=false,COLORREF color=RGB(0,0,0));  //绘制线
 };

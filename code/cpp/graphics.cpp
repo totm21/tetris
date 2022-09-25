@@ -116,12 +116,12 @@ void Graphics::draw_line(int x1,int y1,int x2,int y2,bool check,COLORREF color)
     double base=y1-k*x1;
     for(int i=x1;i<=x2;i++)
     {
-        this->draw_pixel(i,k*i+base,color);
+        this->draw_pixel(i,(k*i+base)+0.5,color);
     }
     return ;
 }
 
-void Graphics::draw_line(Dot2 dot1,Dot2 dot2,bool check=false,COLORREF color)
+void Graphics::draw_line(Dot2 dot1,Dot2 dot2,bool check,COLORREF color)
 {
     this->draw_line(dot1.get_x(),dot1.get_y(),dot2.get_x(),dot2.get_y(),check,color);
     return ;
