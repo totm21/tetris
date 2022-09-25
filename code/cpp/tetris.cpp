@@ -122,6 +122,13 @@ int main()
 	timers->add_timer_one(tim2);
 	timers->add_timer_one(tim3);
 
+	Timing timing;
+	logs->LOG_WRITE(Logs,"开始测试渲染时长");
+	timing.restart();
+	graphics->test();
+	long long t=timing.get_duration();
+	logs->LOG_WRITE(Logs,"测试结束,时长为 : "+std::to_string(t));
+
 	while(true)
 	{
 		if(!win->loop_message())

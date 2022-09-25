@@ -128,9 +128,46 @@ void Graphics::draw_line(Dot2 dot1,Dot2 dot2,bool check,COLORREF color)
 }
 
 //大体实现为连接三条线
-void draw_triangle(int x1,int y1,int x2,int y2,int x3,int y3,bool check,COLORREF color)
+void Graphics::draw_triangle(int x1,int y1,int x2,int y2,int x3,int y3,bool check,COLORREF color)
 {
     return;
 }
+
+//从内存中渲染画面-- 0-1 ms  后面再改
+void Graphics::test()
+{
+   COLORREF *arr = (COLORREF*) calloc(1920*1080, sizeof(COLORREF));
+    /* Filling array here */
+    /* ... */
+
+    // Creating temp bitmap
+    HBITMAP map = CreateBitmap(1920, // width. 512 in my case
+                            1080, // height
+                            1, // Color Planes, unfortanutelly don't know what is it actually. Let it be 1
+                            8*4, // Size of memory for one pixel in bits (in win32 4 bytes = 4*8 bits)
+                            (void*) arr); // pointer to array
+    // Temp HDC to copy picture
+    HDC src = CreateCompatibleDC(this->hdc); // hdc - Device context for window, I've got earlier with GetDC(hWnd) or GetDC(NULL);
+    SelectObject(src, map); // Inserting picture into our temp HDC
+    // Copy image from temp HDC to window
+    BitBlt(hdc, // Destination
+        10,  // x and
+        10,  // y - upper-left corner of place, where we'd like to copy
+        1920, // width of the region
+        1080, // height
+        src, // source
+        0,   // x and
+        0,   // y of upper left corner  of part of the source, from where we'd like to copy
+        SRCCOPY); // Defined DWORD to juct copy pixels. Watch more on msdn;
+
+    DeleteDC(src); // Deleting temp HDC
+    return ;
+}
+
+
+
+
+
+
 
 

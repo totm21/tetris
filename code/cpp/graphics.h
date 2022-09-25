@@ -51,6 +51,8 @@ class Graphics
 
         //三角形绘制(基础版———空心)
         void draw_triangle(int x1,int y1,int x2,int y2,int x3,int y3,bool check=false,COLORREF color=RGB(0,0,0));
+
+        void test();
 };
 
 extern Graphics* graphics;
