@@ -15,7 +15,7 @@ Win::Win()
     this->wndclass.hbrBackground = CreateSolidBrush(RGB(255,255,255));						//背景颜色画刷
 	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//鼠标光标类型,手：DC_HAND
 	this->wndclass.lpszClassName = TEXT("tetris");										//窗口类型名
-	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//窗口类的风格
+	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS | CS_OWNDC;				//窗口类的风格
 	this->wndclass.cbClsExtra = 0;
 	this->wndclass.cbWndExtra = 0;
 	this->wndclass.lpszMenuName = nullptr;
@@ -30,7 +30,7 @@ Win::Win(HINSTANCE hInstance)
 	this->wndclass.hCursor = LoadCursor(NULL, IDC_HAND);								//鼠标光标类型,手：DC_HAND
 	this->wndclass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IMG_ICON_HUANXIONG));	//图标
 	this->wndclass.lpszClassName = TEXT("tetris");										//窗口类型名
-	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;						//窗口类的风格
+	this->wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS | CS_OWNDC;				//窗口类的风格
 	this->wndclass.cbClsExtra = 0;
 	this->wndclass.cbWndExtra = 0;
 	this->wndclass.lpszMenuName = nullptr;
@@ -98,6 +98,16 @@ bool Win::loop_message()
 		TranslateMessage(&this->msg);
 		//将消息分发给窗口处理函数
 		DispatchMessage(&this->msg);
+	}
+	*/
+	/*
+	if (!glfwWindowShouldClose(window))
+	{
+		//刷新颜色缓冲和深度
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 	*/
 	if (g_bNcLButtonDown)

@@ -1,4 +1,5 @@
 
+
 //此处为官方头文件
 
 #include<iostream>
@@ -81,12 +82,16 @@ void* call_back(void* T)
 	std::cout<<*t<<std::endl;
 	return nullptr;
 }
-int main()
-{
 
-    hInstance = GetModuleHandle(nullptr);
+int main()
+{	
+	//hInstance = GetModuleHandle(nullptr);
 	
 	AllocConsole();
+	
+#ifdef _WIN32
+	system("chcp 65001");	//utf-8乱码问题
+#endif
     freopen("CONOUT$", "w", stdout);
 
 	lua_State *lua = luaL_newstate(); 
@@ -97,46 +102,30 @@ int main()
 
     luaL_requiref(lua, "CFuncName", luaopen_C_Func_Name, 1);/*将C语言函数库注册到Lua环境中*/
 
-	win->set_hInstance(hInstance, IMG_ICON_HUANXIONG);
-    win->start_win(TEXT("俄罗斯方块"),200,100,1000,600);
-    graphics->init(win->get_hwnd());
+	//win->set_hInstance(hInstance, IMG_ICON_HUANXIONG);
+    //win->start_win(TEXT("俄罗斯方块"),200,100,1000,600);
 
 	luaL_openlibs(lua);
     luaL_dofile(lua, "../code/lua/debugPrint.lua");
 	lua_close(lua);
 
+
 	logs->LOG_WRITE(Logs,"这是一个测试 希望你能看到");
-
-	for(int i=100;i<200;i++)
-	{
-		graphics->draw_pixel(i,100);
-	}
-
-	graphics->draw_line(400,100,0,0,true);
-
-	int arr[3]={1000,2000,100};
-	Timer_one* tim1=new Timer_one(1000,(void*)(arr),call_back);
-	Timer_one* tim2=new Timer_one(2000,(void*)(arr+1),call_back);
-	Timer_one* tim3=new Timer_one(100,(void*)(arr+2),call_back);
-	timers->add_timer_one(tim1);
-	timers->add_timer_one(tim2);
-	timers->add_timer_one(tim3);
+	graphics->init("俄罗斯方块",1000,600);
 
 	Timing timing;
 	logs->LOG_WRITE(Logs,"开始测试渲染时长");
 	timing.restart();
-	graphics->test();
 	long long t=timing.get_duration();
 	logs->LOG_WRITE(Logs,"测试结束,时长为 : "+std::to_string(t));
 
-	while(true)
+	
+
+	//while(true)
 	{
-		if(!win->loop_message())
-		{
-			break;
-		}
-		timers->update_timers();
+		
 	}
- 
+
+ 	//FreeConsole();
     return 0;
 }

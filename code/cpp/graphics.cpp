@@ -69,7 +69,7 @@ bool Dot2::operator ==(Dot2 &dot)
 
 Graphics::Graphics()
 {
-
+    
 }
 
 Graphics::~Graphics()
@@ -77,11 +77,69 @@ Graphics::~Graphics()
     ReleaseDC(hwnd,hdc);
 }
 
-void Graphics::init(HWND hwnd)
+void Graphics::init(const char* name,int width,int height)
 {
-    this->hwnd=hwnd;
-    this->hdc=GetDC(hwnd);
+    logs->LOG_WRITE(Logs,name);
+
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+    //创建glfw窗口
+	this->window = glfwCreateWindow(width, height, name, NULL, NULL);
+    if (window == NULL)
+    {
+        std::cout << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return ;
+    }
+    glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    // glad: load all OpenGL function pointers
+    // ---------------------------------------
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return ;
+    }    
+
+    // render loop
+    // -----------
+    while (!glfwWindowShouldClose(window))
+    {
+        // input
+        // -----
+        processInput(window);
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    // ------------------------------------------------------------------
+    glfwTerminate();
     return ;
+}
+
+void processInput(GLFWwindow *window)
+{
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    // make sure the viewport matches the new window dimensions; note that width and 
+    // height will be significantly larger than specified on retina displays.
+    glViewport(0, 0, width, height);
 }
 
 void Graphics::draw_pixel(int x,int y,COLORREF color)
@@ -133,9 +191,14 @@ void Graphics::draw_triangle(int x1,int y1,int x2,int y2,int x3,int y3,bool chec
     return;
 }
 
+
+
+/*
+
+    此处留档 不删  CPU绘图(大概率用不上)
+
+
 COLORREF *arr = (COLORREF*) calloc(1920*1080, sizeof(COLORREF));
-    /* Filling array here */
-    /* ... */
 
     // Temp HDC to copy picture
 HBITMAP map = CreateBitmap(1920, // width. 512 in my case
@@ -159,13 +222,12 @@ void Graphics::test()
     SetBitmapBits(map,1920*1080,arr);
     
     
-    
     HDC src = CreateCompatibleDC(this->hdc); // hdc - Device context for window, I've got earlier with GetDC(hWnd) or GetDC(NULL);
     SelectObject(src, map); // Inserting picture into our temp HDC
     // Copy image from temp HDC to window
     BitBlt(hdc, // Destination
-        10,  // x and
-        10,  // y - upper-left corner of place, where we'd like to copy
+        0,  // x and
+        0,  // y - upper-left corner of place, where we'd like to copy
         1920, // width of the region
         1080, // height
         src, // source
@@ -177,10 +239,7 @@ void Graphics::test()
     return ;
 }
 
-
-
-
-
+*/
 
 
 

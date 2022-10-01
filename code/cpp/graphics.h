@@ -3,13 +3,16 @@
 #define __GRAPHICS__ME__
 
 /*
-    图形绘制 
+    图形绘制 引入openGL
     @auther:    程智
     @date:      2022.9.25
 */
 
-
+#define GLFW_EXPOSE_NATIVE_WIN32
 #include<windows.h>
+#include<glad/glad.h>
+#include<GLFW/glfw3.h>
+#include<GLFW/glfw3native.h>
 #include"log.h"
 
 class Dot2
@@ -34,6 +37,11 @@ class Dot2
 class Graphics
 {
     private:
+        GLFWwindow* window;
+        COLORREF* buffer[2]; //缓冲区
+        HBITMAP map;
+        HDC mem_hdc;         //内存dc
+
         HWND hwnd;
         HDC hdc;        //dc
         HPEN pen;       //画笔
@@ -41,7 +49,7 @@ class Graphics
     public:
         Graphics();
         ~Graphics();
-        void init(HWND hwnd);       //初始化
+        void init(const char* name,int width,int height);       //初始化
         void draw_pixel(int x,int y,COLORREF color=RGB(0,0,0)); //绘制像素点
         void draw_pixel(Dot2 dot,COLORREF color=RGB(0,0,0));    //绘制像素点
 
@@ -54,6 +62,9 @@ class Graphics
 
         void test();
 };
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
 
 extern Graphics* graphics;
 

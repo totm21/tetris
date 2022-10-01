@@ -3,7 +3,9 @@
 
 
 #字符兼容问题 输入UTF-8 输出GBK   问题在于github是按照UTF-8来读取的 但window是按照GBK来读取的  
-UTF_GBK :=-finput-charset=UTF-8 -fexec-charset=GBK
+UTF_GBK :=
+#-finput-charset=UTF-8 -fexec-charset=GBK
+#旧的解决方式是更改编译后的输出文件编码  现在的解决方式是更改控制台输出编码
 
 #编译时 库文件链接策略   默认是动态  静态请输入:make version=-static  
 version := 
@@ -14,16 +16,20 @@ name :=
 all:tetris
 
 tetris:make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
-	make/middleware/json_writer.o make/middleware/json_value.o make/middleware/win.o \
+	make/middleware/json_writer.o make/middleware/json_value.o \
+	make/middleware/glad.o \
+	make/middleware/win.o \
 	make/middleware/register.o make/middleware/timer.o make/middleware/log.o \
 	make/middleware/graphics.o \
 
-	g++ $(UTF_GBK) $(version) -o make/tetris \
+	g++ $(version) -o make/tetris \
 		make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
-		make/middleware/json_writer.o make/middleware/json_value.o make/middleware/win.o \
+		make/middleware/json_writer.o make/middleware/json_value.o \
+		make/middleware/glad.o \
+		make/middleware/win.o \
 		make/middleware/register.o make/middleware/timer.o make/middleware/log.o \
 		make/middleware/graphics.o \
-	 	-mwindows -llua54
+	 	-mwindows -llua54 -lglfw3 -lgdi32 -lopengl32
 
 #此处为资源文件编译!
 make/middleware/resources.o:resources/resources.rc
@@ -39,6 +45,11 @@ make/middleware/json_writer.o:code/cpp/expands/json_writer.cpp
 make/middleware/json_value.o:code/cpp/expands/json_value.cpp
 	g++ -c code/cpp/expands/json_value.cpp -o make/middleware/json_value.o
 #此处jsoncpp文件编译结束
+
+#此处为插件头文件编译
+make/middleware/glad.o:code/cpp/expands/glad.c
+	g++ -c code/cpp/expands/glad.c -o make/middleware/glad.o
+#此处为结束
 
 make/middleware/tetris.o:code/cpp/tetris.cpp 
 	g++ $(UTF_GBK) -c code/cpp/tetris.cpp -o make/middleware/tetris.o 
@@ -72,12 +83,12 @@ clean_log:
 	cd data/log && del *.txt
 
 #重新生成
-regenerate:
+remake:
 	make clean
 	make
 
 delete:
 	cd make/middleware && del $(name)
 
-.PHONY:run clean clean_o regenerate delete clean_log
+.PHONY:run clean clean_o remake delete clean_log
 
