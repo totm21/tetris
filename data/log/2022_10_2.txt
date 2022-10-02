@@ -87,3 +87,7 @@
 2022-10-2 22:8:34 | code/cpp/graphics.cpp -> init -> 82----俄罗斯方块
 2022-10-2 22:8:36 | code/cpp/tetris.cpp -> main -> 117----开始测试渲染时长
 2022-10-2 22:8:36 | code/cpp/tetris.cpp -> main -> 120----测试结束,时长为 : 0
+2022-10-2 22:40:54 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 22:40:54 | code/cpp/graphics.cpp -> init -> 82----俄罗斯方块
+2022-10-2 22:40:57 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 22:40:57 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0

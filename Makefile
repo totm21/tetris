@@ -18,7 +18,6 @@ all:tetris
 tetris:make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
 	make/middleware/json_writer.o make/middleware/json_value.o \
 	make/middleware/glad.o \
-	make/middleware/win.o \
 	make/middleware/register.o make/middleware/timer.o make/middleware/log.o \
 	make/middleware/graphics.o \
 
@@ -26,7 +25,6 @@ tetris:make/middleware/tetris.o make/middleware/resources.o make/middleware/json
 		make/middleware/tetris.o make/middleware/resources.o make/middleware/json_reader.o \
 		make/middleware/json_writer.o make/middleware/json_value.o \
 		make/middleware/glad.o \
-		make/middleware/win.o \
 		make/middleware/register.o make/middleware/timer.o make/middleware/log.o \
 		make/middleware/graphics.o \
 	 	-mwindows -llua54 -lglfw3 -lgdi32 -lopengl32
@@ -54,9 +52,6 @@ make/middleware/glad.o:code/cpp/expands/glad.c
 
 make/middleware/tetris.o:code/cpp/tetris.cpp 
 	g++ $(UTF_GBK) -c code/cpp/tetris.cpp -o make/middleware/tetris.o 
-	
-make/middleware/win.o:code/cpp/win.cpp
-	g++ $(UTF_GBK) -c code/cpp/win.cpp -o make/middleware/win.o
 
 make/middleware/register.o:code/cpp/register.cpp
 	g++ $(UTF_GBK) -c code/cpp/register.cpp -o make/middleware/register.o

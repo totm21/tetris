@@ -13,7 +13,6 @@
 #include"expands/json/json.h"
 
 //此处为自定义头文件
-#include"win.h"
 #include"register.h"
 #include"timer.h"
 #include"log.h"
