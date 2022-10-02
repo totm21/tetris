@@ -3,6 +3,8 @@
 
 Graphics* graphics=new Graphics();
 
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
 Dot2::Dot2()
 {
 
@@ -77,10 +79,8 @@ Graphics::~Graphics()
     ReleaseDC(hwnd,hdc);
 }
 
-void Graphics::init(const char* name,int define_IMG,int width,int height)
+void Graphics::init(const char* name,int define_IMG,int width,int high)
 {
-    logs->LOG_WRITE(Logs,name);
-
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -88,43 +88,100 @@ void Graphics::init(const char* name,int define_IMG,int width,int height)
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-    //创建glfw窗口
-	this->window = glfwCreateWindow(width, height, name, NULL, NULL);
+
+	this->window = glfwCreateWindow(width, high, name, NULL, NULL);
     
     this->hwnd = glfwGetWin32Window(this->window);
-    HICON hIcon = ::LoadIcon((HINSTANCE)GetModuleHandle(NULL), MAKEINTRESOURCE(define_IMG));
-    ::SendMessage(this->hwnd,WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-    ::SendMessage(this->hwnd,WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+    this->set_title_ico(define_IMG);
 
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
+    glViewport(0, 0, width, high);
+
     while (!glfwWindowShouldClose(window))
     {
-        processInput(window);
+        glfwSetKeyCallback(window, key_callback);
+        //processInput(window);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    glfwTerminate();
     return ;
+}
+
+void Graphics::set_title_ico(int define_IMG)
+{
+    HICON hIcon = ::LoadIcon((HINSTANCE)GetModuleHandle(NULL), MAKEINTRESOURCE(define_IMG));
+    ::SendMessage(this->hwnd,WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+    ::SendMessage(this->hwnd,WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+    return ;
+}
+
+void kill_me()
+{
+    glfwTerminate();
+    return;
 }
 
 void processInput(GLFWwindow *window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
         glfwSetWindowShouldClose(window, true);
+    }
+    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        logs->LOG_WRITE(Info,"A is pressed");
+    }
+    return ;
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void framebuffer_size_callback(GLFWwindow* window, int width, int high)
 {
     // make sure the viewport matches the new window dimensions; note that width and 
-    // height will be significantly larger than specified on retina displays.
-    glViewport(0, 0, width, height);
+    // high will be significantly larger than specified on retina displays.
+    glViewport(0, 0, width, high);
+}
+
+bool flag[2]={0};
+
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+        
+   if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)       //按下
+	{
+        if(!flag[0])
+        {
+	        logs->LOG_WRITE(Info,"A is pressed");
+            flag[0]=true;
+        }
+    }
+    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_RELEASE)      //抬起
+    {
+        flag[0]=false;
+    }
+
+	// 接受键盘 B 键，随机修改背景颜色
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)       //按下
+	{
+        if(!flag[1])
+        {
+	        logs->LOG_WRITE(Info,"B is pressed");
+            flag[1]=true;
+        }
+    }
+    if(glfwGetKey(window, GLFW_KEY_B) == GLFW_RELEASE)      //抬起
+    {
+        flag[1]=false;
+    }
+    return ;
 }
 
 

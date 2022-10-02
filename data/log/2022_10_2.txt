@@ -91,3 +91,37 @@
 2022-10-2 22:40:54 | code/cpp/graphics.cpp -> init -> 82----俄罗斯方块
 2022-10-2 22:40:57 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
 2022-10-2 22:40:57 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 22:50:14 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 22:50:14 | code/cpp/graphics.cpp -> init -> 82----俄罗斯方块
+2022-10-2 22:50:21 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 22:50:21 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 22:56:14 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 22:56:23 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 22:56:23 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 23:0:30 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 23:0:31 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 23:0:31 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 23:4:39 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 23:5:15 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 23:5:15 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 23:10:42 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 23:10:52 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 23:10:52 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 23:14:46 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 23:14:55 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 23:14:55 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 23:15:52 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 23:15:56 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 23:15:56 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 23:16:4 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 23:16:32 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 23:16:32 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 23:22:9 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 23:22:18 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 23:22:18 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 23:24:40 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 23:25:11 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 23:25:11 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0
+2022-10-2 23:25:18 | code/cpp/tetris.cpp -> main -> 112----这是一个测试 希望你能看到
+2022-10-2 23:25:27 | code/cpp/tetris.cpp -> main -> 116----开始测试渲染时长
+2022-10-2 23:25:27 | code/cpp/tetris.cpp -> main -> 119----测试结束,时长为 : 0

@@ -52,12 +52,13 @@ class Graphics
     public:
         Graphics();
         ~Graphics();
-        void init(const char* name,int define_IMG,int width,int height);       //初始化
-
+        void init(const char* name,int define_IMG,int width,int high);       //初始化
+        void set_title_ico(int define_IMG);                                    //设置图标
+        void kill_me();                                                        //释放资源
 
 };
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void framebuffer_size_callback(GLFWwindow* window, int width, int high);
 void processInput(GLFWwindow *window);
 
 extern Graphics* graphics;
