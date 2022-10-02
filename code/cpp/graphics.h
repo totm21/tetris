@@ -42,7 +42,6 @@ class Graphics
 {
     private:
         GLFWwindow* window;
-        COLORREF* buffer[2]; //缓冲区
         HBITMAP map;
         HDC mem_hdc;         //内存dc
 
@@ -53,18 +52,9 @@ class Graphics
     public:
         Graphics();
         ~Graphics();
-        void init(const char* name,int width,int height);       //初始化
-        void draw_pixel(int x,int y,COLORREF color=RGB(0,0,0)); //绘制像素点
-        void draw_pixel(Dot2 dot,COLORREF color=RGB(0,0,0));    //绘制像素点
+        void init(const char* name,int define_IMG,int width,int height);       //初始化
 
-        //后续推出优化版 边缘渲染  但暂时先不处理
-        void draw_line(int x1,int y1,int x2,int y2,bool check=false,COLORREF color=RGB(0,0,0));  //绘制线
-        void draw_line(Dot2 dot1,Dot2 dot2,bool check=false,COLORREF color=RGB(0,0,0));  //绘制线
 
-        //三角形绘制(基础版———空心)
-        void draw_triangle(int x1,int y1,int x2,int y2,int x3,int y3,bool check=false,COLORREF color=RGB(0,0,0));
-
-        void test();
 };
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

@@ -111,7 +111,7 @@ int main()
 
 
 	logs->LOG_WRITE(Logs,"这是一个测试 希望你能看到");
-	graphics->init("俄罗斯方块",1000,600);
+	graphics->init("俄罗斯方块",IMG_ICON_HUANXIONG,1000,600);
 
 	Timing timing;
 	logs->LOG_WRITE(Logs,"开始测试渲染时长");
