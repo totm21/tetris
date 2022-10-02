@@ -96,6 +96,12 @@ void Graphics::init(const char* name,int width,int height)
         glfwTerminate();
         return ;
     }
+    
+    this->hwnd = glfwGetWin32Window(this->window);
+    HICON hIcon = ::LoadIcon((HINSTANCE)GetModuleHandle(NULL), MAKEINTRESOURCE(IMG_ICON_HUANXIONG));
+    ::SendMessage(this->hwnd,WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+    ::SendMessage(this->hwnd,WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 

@@ -49,6 +49,7 @@ make/middleware/json_value.o:code/cpp/expands/json_value.cpp
 #此处为插件头文件编译
 make/middleware/glad.o:code/cpp/expands/glad.c
 	g++ -c code/cpp/expands/glad.c -o make/middleware/glad.o
+
 #此处为结束
 
 make/middleware/tetris.o:code/cpp/tetris.cpp 

@@ -15,6 +15,10 @@
 #include<GLFW/glfw3native.h>
 #include"log.h"
 
+#include"../../resources/resources.h"
+
+#include"expands/stb_image.h"
+
 class Dot2
 {
     private:

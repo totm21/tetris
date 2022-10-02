@@ -2,3 +2,5 @@
 #include"resources.h"
 
 IMG_ICON_HUANXIONG ICON "huanxiong.ico"
+
+IMG_PNG_HUANXIONG PNG "huanxiong2.png"
