@@ -4,3 +4,9 @@
 2022-10-4 0:4:25 | code/cpp/tetris.cpp -> main -> 117----这是一个测试 希望你能看到
 2022-10-4 0:4:25 | code/cpp/tetris.cpp -> main -> 121----开始测试
 2022-10-4 0:4:25 | code/cpp/tetris.cpp -> main -> 123----测试结束,时长为 : 612
+2022-10-4 0:44:32 | code/cpp/tetris.cpp -> main -> 117----这是一个测试 希望你能看到
+2022-10-4 0:44:32 | code/cpp/tetris.cpp -> main -> 121----开始测试
+2022-10-4 0:44:32 | code/cpp/tetris.cpp -> main -> 123----测试结束,时长为 : 628
+2022-10-4 0:51:1 | code/cpp/tetris.cpp -> main -> 117----这是一个测试 希望你能看到
+2022-10-4 0:51:1 | code/cpp/tetris.cpp -> main -> 121----开始测试
+2022-10-4 0:51:1 | code/cpp/tetris.cpp -> main -> 123----测试结束,时长为 : 645
