@@ -9,9 +9,12 @@
     还有另外一种时间轮定时器,但这个更适用于数据量大的情况,暂时优先队列就满足使用,所以暂时先不添加
     后续考虑时间轮+优先队列 实现大数据量
     以及时间相关class和函数
+
+    存在误差-----不能每一毫秒都抓到
+
     @auther:    程智
     @date:      2022.9.13
-    @alter:     2022.9.13
+    @alter:     2022.10.3
 */
 
 #include<iostream>
@@ -20,6 +23,19 @@
 #include<chrono>
 #include<ctime>
 #include"log.h"
+
+class Time_program
+{
+    private:
+        long long now_time;
+        long long last_time;
+        bool flag_state;            //状态标记位   false为无暂停  true为暂停
+    public:
+        Time_program();
+        long long get_system_time();
+        long long get_program_time();
+        void update();
+};
 
 //单个定时器定义
 class Timer_one
@@ -77,6 +93,8 @@ class Timing
 
 };
 
+extern Time_program* time_program;
 extern Timers* timers;
+extern Timing* timing;
 
 #endif

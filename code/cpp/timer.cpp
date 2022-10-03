@@ -1,11 +1,48 @@
 
 #include"timer.h"
 
+Time_program* time_program=new Time_program();
 Timers* timers=new Timers();
+Timing* timing=new Timing();
+
+Time_program::Time_program()
+{
+    this->flag_state=false;
+    this->now_time=0;
+    this->last_time=this->get_system_time();
+}
+
+long long Time_program::get_system_time()
+{
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+}
+
+long long Time_program::get_program_time()
+{
+    return this->now_time;
+}
+
+void Time_program::update()
+{
+    long long time_system=this->get_system_time();
+    if(time_system!=this->last_time)
+    {
+        if(this->flag_state)
+        {
+            ++this->now_time;
+        }
+        else
+        {
+            this->now_time+=time_system-this->last_time;
+        }
+        this->last_time=time_system;
+    }
+    return ;
+}
 
 Timer_one::Timer_one(int time_ms,void* data,void* (*call_back)(void*))
 {
-    this->start_time=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    this->start_time=time_program->get_program_time();
     this->end_time=this->start_time+time_ms;
     this->state_flag=true;
     this->data=data;
@@ -126,12 +163,14 @@ bool Timers::delete_timers(Timer_one* timer)
 
 bool Timers::update_timers()
 {
-    long long now_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    time_program->update();
+    long long now_time = time_program->get_program_time();
     while(!this->group_timers.empty())
     {
         Timer_one* top_timer=this->group_timers.top();
         if(top_timer->compare_time_t(now_time))
         {
+            
             if(top_timer->get_state_flag())
             { 
                 top_timer->run_call_back();

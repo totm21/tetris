@@ -8,7 +8,7 @@
 #include<string>
 #include<iterator>
 
-//此处为扩展头文集
+//此处为扩展头文件
 #include"expands/lua/lua.hpp"
 #include"expands/json/json.h"
 
@@ -75,12 +75,17 @@ void readFileJson()
 	in.close();
 }
 */
+//int a[3]={10,2000,100};
 void* call_back(void* T)
 {
 	int *t=(int*)T;
-	std::cout<<*t<<std::endl;
+	std::cout<<*t<<" "<<time_program->get_program_time()<<std::endl;
+	
+	//Timer_one* tim1=new Timer_one(100,(void*)(a),call_back);
+	//timers->add_timer_one(tim1);
 	return nullptr;
 }
+
 
 int main()
 {	
@@ -110,19 +115,27 @@ int main()
 
 
 	logs->LOG_WRITE(Logs,"这是一个测试 希望你能看到");
-	graphics->init("俄罗斯方块",IMG_ICON_HUANXIONG,1000,600);
+	//graphics->init("俄罗斯方块",IMG_ICON_HUANXIONG,1000,600);
 
-	Timing timing;
-	logs->LOG_WRITE(Logs,"开始测试渲染时长");
-	timing.restart();
-	long long t=timing.get_duration();
-	logs->LOG_WRITE(Logs,"测试结束,时长为 : "+std::to_string(t));
+	int arr[3]={1000,2000,100};
+	Timer_one* tim1=new Timer_one(1000,(void*)(arr),call_back);
+	Timer_one* tim2=new Timer_one(2000,(void*)(arr+1),call_back);
+	Timer_one* tim3=new Timer_one(9000,(void*)(arr+2),call_back);
+	timing->restart();
+
+	timers->add_timer_one(tim1);
+	timers->add_timer_one(tim2);
+	timers->add_timer_one(tim3);
 
 	
+	logs->LOG_WRITE(Logs,"开始测试");
 
-	//while(true)
+	logs->LOG_WRITE(Logs,"测试结束,时长为 : "+std::to_string(timing->get_duration()));
+	
+
+	while(true)
 	{
-		
+		timers->update_timers();
 	}
 
  	//FreeConsole();

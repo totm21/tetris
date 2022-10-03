@@ -64,6 +64,8 @@
         "optional": "cpp",
         "ratio": "cpp",
         "string_view": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "thread": "cpp",
+        "cinttypes": "cpp"
     }
 }
