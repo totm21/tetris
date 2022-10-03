@@ -40,6 +40,17 @@ void Time_program::update()
     return ;
 }
 
+void Time_program::set_flag_state(bool flag)
+{
+    this->flag_state=flag;
+    return ;
+}
+
+bool Time_program::get_flag_state()
+{
+    return this->flag_state;
+}
+
 Timer_one::Timer_one(int time_ms,void* data,void* (*call_back)(void*))
 {
     this->start_time=time_program->get_program_time();

@@ -35,6 +35,8 @@ class Time_program
         long long get_system_time();
         long long get_program_time();
         void update();
+        void set_flag_state(bool flag);
+        bool get_flag_state();
 };
 
 //单个定时器定义
