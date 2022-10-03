@@ -115,17 +115,7 @@ int main()
 
 
 	logs->LOG_WRITE(Logs,"这是一个测试 希望你能看到");
-	//graphics->init("俄罗斯方块",IMG_ICON_HUANXIONG,1000,600);
-
-	int arr[3]={1000,2000,100};
-	Timer_one* tim1=new Timer_one(1000,(void*)(arr),call_back);
-	Timer_one* tim2=new Timer_one(2000,(void*)(arr+1),call_back);
-	Timer_one* tim3=new Timer_one(9000,(void*)(arr+2),call_back);
-	timing->restart();
-
-	timers->add_timer_one(tim1);
-	timers->add_timer_one(tim2);
-	timers->add_timer_one(tim3);
+	graphics->init("俄罗斯方块",IMG_ICON_HUANXIONG,1000,600);
 
 	
 	logs->LOG_WRITE(Logs,"开始测试");
@@ -133,7 +123,7 @@ int main()
 	logs->LOG_WRITE(Logs,"测试结束,时长为 : "+std::to_string(timing->get_duration()));
 	
 
-	while(true)
+	while(graphics->update())
 	{
 		timers->update_timers();
 	}

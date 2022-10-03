@@ -101,13 +101,15 @@ void Graphics::init(const char* name,int define_IMG,int width,int high)
 
     glViewport(0, 0, width, high);
 
-    while (!glfwWindowShouldClose(window))
-    {
-        glfwSetKeyCallback(window, key_callback);
-        //processInput(window);
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
+    //英文输入法切换 ENG
+    HKL hkl = LoadKeyboardLayout(_T("00000409"), KLF_ACTIVATE);
+    PostMessage(this->hwnd, WM_INPUTLANGCHANGEREQUEST, (WPARAM)TRUE, (LPARAM)hkl);
+
+    /*
+    
+    hkl = LoadKeyboardLayout(_T("00000804"), KLF_ACTIVATE);
+    PostMessage(hWnd, WM_INPUTLANGCHANGEREQUEST, (WPARAM)TRUE, (LPARAM)hkl);
+    */
 
     return ;
 }
@@ -120,7 +122,20 @@ void Graphics::set_title_ico(int define_IMG)
     return ;
 }
 
-void kill_me()
+bool Graphics::update()
+{
+    if(!glfwWindowShouldClose(window))
+    {
+        glfwSetKeyCallback(window, key_callback);
+        //processInput(window);
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+        return true;
+    }
+    return false;
+}
+
+void Graphics::kill_me()
 {
     glfwTerminate();
     return;

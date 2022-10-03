@@ -13,11 +13,16 @@
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 #include<GLFW/glfw3native.h>
+#include<imm.h>
+#include<tchar.h>
+
 #include"log.h"
 
 #include"../../resources/resources.h"
 
 #include"expands/stb_image.h"
+
+#pragma comment (lib ,"imm32.lib")
 
 class Dot2
 {
@@ -52,8 +57,9 @@ class Graphics
     public:
         Graphics();
         ~Graphics();
-        void init(const char* name,int define_IMG,int width,int high);       //初始化
+        void init(const char* name,int define_IMG,int width,int high);         //初始化
         void set_title_ico(int define_IMG);                                    //设置图标
+        bool update();                                                         //推进一次系统
         void kill_me();                                                        //释放资源
 
 };
