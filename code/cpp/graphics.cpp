@@ -102,11 +102,10 @@ void Graphics::init(const char* name,int define_IMG,int width,int high)
     glViewport(0, 0, width, high);
 
     //英文输入法切换 ENG
-    HKL hkl = LoadKeyboardLayout(_T("00000409"), KLF_ACTIVATE);
-    PostMessage(this->hwnd, WM_INPUTLANGCHANGEREQUEST, (WPARAM)TRUE, (LPARAM)hkl);
+    this->set_keyboard_input_method(_T("00000409"));
 
     /*
-    
+
     hkl = LoadKeyboardLayout(_T("00000804"), KLF_ACTIVATE);
     PostMessage(hWnd, WM_INPUTLANGCHANGEREQUEST, (WPARAM)TRUE, (LPARAM)hkl);
     */
@@ -120,6 +119,12 @@ void Graphics::set_title_ico(int define_IMG)
     ::SendMessage(this->hwnd,WM_SETICON, ICON_BIG, (LPARAM)hIcon);
     ::SendMessage(this->hwnd,WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
     return ;
+}
+
+void Graphics::set_keyboard_input_method(LPCTSTR index)
+{
+    HKL hkl = LoadKeyboardLayout(index, KLF_ACTIVATE);
+    PostMessage(this->hwnd, WM_INPUTLANGCHANGEREQUEST, (WPARAM)TRUE, (LPARAM)hkl);
 }
 
 bool Graphics::update()
