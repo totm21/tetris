@@ -43,6 +43,12 @@ class Dot2
         bool operator ==(Dot2 &dot);
 };
 
+enum Language
+{
+    english=0,
+    chinese=1,
+};
+
 class Graphics
 {
     private:
@@ -61,8 +67,8 @@ class Graphics
         void init(const char* name,int define_IMG,int width,int high);         
         //设置图标
         void set_title_ico(int define_IMG);                             
-        //设置键盘输入法 传序号时使用_T("00000409")       
-        void set_keyboard_input_method(LPCTSTR index);                     
+        //设置键盘输入法 传序号时使用_T("00000409")形式       
+        void set_keyboard_input_method(Language language);                     
         //推进一次系统    
         bool update();                                                      
         //释放资源   

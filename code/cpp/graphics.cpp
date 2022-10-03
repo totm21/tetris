@@ -102,13 +102,7 @@ void Graphics::init(const char* name,int define_IMG,int width,int high)
     glViewport(0, 0, width, high);
 
     //英文输入法切换 ENG
-    this->set_keyboard_input_method(_T("00000409"));
-
-    /*
-
-    hkl = LoadKeyboardLayout(_T("00000804"), KLF_ACTIVATE);
-    PostMessage(hWnd, WM_INPUTLANGCHANGEREQUEST, (WPARAM)TRUE, (LPARAM)hkl);
-    */
+    this->set_keyboard_input_method(english);
 
     return ;
 }
@@ -121,9 +115,19 @@ void Graphics::set_title_ico(int define_IMG)
     return ;
 }
 
-void Graphics::set_keyboard_input_method(LPCTSTR index)
+void Graphics::set_keyboard_input_method(Language language)
 {
-    HKL hkl = LoadKeyboardLayout(index, KLF_ACTIVATE);
+    HKL hkl;
+    switch(language)
+    {
+        case english:
+            hkl = LoadKeyboardLayout(_T("00000409"), KLF_ACTIVATE);
+            break;
+        case chinese:
+            hkl = LoadKeyboardLayout(_T("00000804"), KLF_ACTIVATE);
+            break;
+            
+    }
     PostMessage(this->hwnd, WM_INPUTLANGCHANGEREQUEST, (WPARAM)TRUE, (LPARAM)hkl);
 }
 
