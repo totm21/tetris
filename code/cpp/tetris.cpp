@@ -106,17 +106,15 @@ int main()
 
     luaL_requiref(lua, "CFuncName", luaopen_C_Func_Name, 1);/*将C语言函数库注册到Lua环境中*/
 
-	//win->set_hInstance(hInstance, IMG_ICON_HUANXIONG);
-    //win->start_win(TEXT("俄罗斯方块"),200,100,1000,600);
-
 	luaL_openlibs(lua);
     luaL_dofile(lua, "../code/lua/debugPrint.lua");
 	lua_close(lua);
 
 
 	logs->LOG_WRITE(Logs,"这是一个测试 希望你能看到");
+	
 	graphics->init("俄罗斯方块",IMG_ICON_HUANXIONG,1000,600);
-
+	graphics->test();
 	
 	logs->LOG_WRITE(Logs,"开始测试");
 
@@ -126,6 +124,13 @@ int main()
 	while(graphics->update())
 	{
 		timers->update_timers();
+		//清空
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+		//激活程序对象
+    	glUseProgram(graphics->shaderProgram);
+    	glBindVertexArray(graphics->VAO);
+    	glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
 
  	//FreeConsole();

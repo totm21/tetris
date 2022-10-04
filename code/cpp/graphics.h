@@ -58,8 +58,6 @@ class Graphics
 
         HWND hwnd;
         HDC hdc;        //dc
-        HPEN pen;       //画笔
-        HBRUSH hbrush;  //画刷
     public:
         Graphics();
         ~Graphics();
@@ -70,9 +68,17 @@ class Graphics
         //设置键盘输入法 传序号时使用_T("00000409")形式       
         void set_keyboard_input_method(Language language);                     
         //推进一次系统    
-        bool update();                                                      
+        bool update();
         //释放资源   
-        void kill_me();                                                        
+        void kill_me();
+
+        //openGL 学习测试函数
+        void test();              
+
+        //着色器程序
+        unsigned int shaderProgram;
+        //顶点缓冲对象、数组对象 
+        unsigned int VBO, VAO;                                         
 
 };
 
