@@ -222,7 +222,7 @@ const char *vertexShaderSource = "#version 330 core\n"
 
 void Graphics::test()
 {
-    
+    //顶点
     //生成着色器对象
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     //着色源码嵌入
