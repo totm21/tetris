@@ -120,7 +120,10 @@ int main()
 
 	logs->WRITE_LOG(Logs,"测试结束,时长为 : "+std::to_string(timing->get_duration()));
 	
-
+	//画线
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//充满
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
 	while(graphics->update())
 	{
 		timers->update();
@@ -130,7 +133,9 @@ int main()
 		//激活程序对象
     	glUseProgram(graphics->shaderProgram);
     	glBindVertexArray(graphics->VAO);
-    	glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    	//glDrawArrays(GL_TRIANGLES, 0, 3);
+		glBindVertexArray(0);
 	}
 
  	//FreeConsole();
