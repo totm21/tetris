@@ -93,7 +93,7 @@ class Timers
         //删除定时器                           
         bool delete_timers(Timer_one* timer);      
         //更新定时器                                          
-        bool update_timers();                                                           
+        bool update();                                                           
 };
 
 //计时器组

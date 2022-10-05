@@ -18,8 +18,9 @@
 #include<chrono>
 #include<iomanip>
 #include<windows.h>
+#include<direct.h>
 
-#define LOG_WRITE(level,message) log_write_entity(level,message,__FILE__,__FUNCTION__,__LINE__)
+#define WRITE_LOG(level,message) write_log_entity(level,message,__FILE__,__FUNCTION__,__LINE__)
 
 enum log_level
 {
@@ -42,14 +43,16 @@ class Log
         std::string get_date_string();              
         //获取当前日期的字符串(详细) 例：2022:9:14
         std::string get_date_detail_string();      
+        //文件夹检测(不存在则创建文件夹)
+        bool check_folder(std::string name);
         //打开文件
-        bool file_open(std::string name);           
+        bool open_file(std::string name);           
         //设置控制台颜色
         void set_console_color(int n);              
         //输出颜色对照表
         void cout_console_color_table();  
         //log打印          
-        void log_write_entity(log_level level,std::string message,const char* file,const char* fun,int line);
+        void write_log_entity(log_level level,std::string message,const char* file,const char* fun,int line);
 };
 
 extern Log* logs;

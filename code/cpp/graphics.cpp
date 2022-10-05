@@ -158,7 +158,7 @@ void processInput(GLFWwindow *window)
     }
     if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        logs->LOG_WRITE(Info,"A is pressed");
+        logs->WRITE_LOG(Info,"A is pressed");
     }
     return ;
 }
@@ -180,7 +180,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	{
         if(!flag[0])
         {
-	        logs->LOG_WRITE(Info,"A is pressed");
+	        logs->WRITE_LOG(Info,"A is pressed");
             flag[0]=true;
         }
     }
@@ -194,7 +194,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	{
         if(!flag[1])
         {
-	        logs->LOG_WRITE(Info,"B is pressed");
+	        logs->WRITE_LOG(Info,"B is pressed");
             flag[1]=true;
         }
     }

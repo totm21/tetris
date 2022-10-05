@@ -111,19 +111,19 @@ int main()
 	lua_close(lua);
 
 
-	logs->LOG_WRITE(Logs,"这是一个测试 希望你能看到");
+	logs->WRITE_LOG(Logs,"这是一个测试 希望你能看到");
 	
 	graphics->init("俄罗斯方块",IMG_ICON_HUANXIONG,1000,600);
 	graphics->test();
 	
-	logs->LOG_WRITE(Logs,"开始测试");
+	logs->WRITE_LOG(Logs,"开始测试");
 
-	logs->LOG_WRITE(Logs,"测试结束,时长为 : "+std::to_string(timing->get_duration()));
+	logs->WRITE_LOG(Logs,"测试结束,时长为 : "+std::to_string(timing->get_duration()));
 	
 
 	while(graphics->update())
 	{
-		timers->update_timers();
+		timers->update();
 		//清空
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);

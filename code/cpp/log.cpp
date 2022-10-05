@@ -6,7 +6,7 @@ Log* logs=new Log();
 Log::Log()
 {
     this->file_name="";
-    this->file_open(this->get_date_string());
+    this->open_file(this->get_date_string());
 }
 
 Log::~Log()
@@ -32,14 +32,31 @@ std::string Log::get_date_detail_string()
     return std::to_string(1900 + now->tm_year) + "-" + std::to_string(1 + now->tm_mon) + "-" + std::to_string(now->tm_mday) + " " + std::to_string(now->tm_hour) + ":" +std::to_string(now->tm_min)+ ":" +std::to_string(now->tm_sec);
 }
 
-bool Log::file_open(std::string name)
+bool Log::check_folder(std::string folder)
+{
+    if (0 != access(folder.c_str(), 0))
+    {
+        if(mkdir(folder.c_str()) == -1)   // 返回 0 表示创建成功，-1 表示失败
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Log::open_file(std::string name)
 {
     if(this->file_name!="")
     {
         this->out.close();
         this->file_name="";
     }
-    this->out.open("../data/log/"+name+".txt",std::ios::app);
+    if(this->check_folder("log")==false)
+    {
+        this->WRITE_LOG(Error,"文件夹不存在(尝试创建失败)");
+        return false;
+    }
+    this->out.open("log/"+name+".txt",std::ios::app);
     if(!this->out.is_open())
     {
         return false;
@@ -68,12 +85,12 @@ void Log::cout_console_color_table()
     return ;
 }
 
-void Log::log_write_entity(log_level level,std::string message,const char* file,const char* fun,int line)
+void Log::write_log_entity(log_level level,std::string message,const char* file,const char* fun,int line)
 {
     std::string data=this->get_date_string();
     if(data!=this->file_name)
     {
-        this->file_open(data);
+        this->open_file(data);
     }
     switch(level)
     {

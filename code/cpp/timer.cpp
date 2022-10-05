@@ -172,7 +172,7 @@ bool Timers::delete_timers(Timer_one* timer)
     return true;
 }
 
-bool Timers::update_timers()
+bool Timers::update()
 {
     time_program->update();
     long long now_time = time_program->get_program_time();
