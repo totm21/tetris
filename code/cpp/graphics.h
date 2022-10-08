@@ -70,15 +70,7 @@ class Graphics
         //推进一次系统    
         bool update();
         //释放资源   
-        void kill_me();
-
-        //openGL 学习测试函数
-        void test();              
-
-        //着色器程序
-        unsigned int shaderProgram;
-        //顶点缓冲对象、数组对象 
-        unsigned int VBO, VAO;                                         
+        void kill_me();                                      
 
 };
 

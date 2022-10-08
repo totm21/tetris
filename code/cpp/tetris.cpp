@@ -18,6 +18,7 @@
 #include"timer.h"
 #include"log.h"
 #include"graphics.h"
+#include"shader.h"
 
 HINSTANCE hInstance;
 
@@ -88,6 +89,75 @@ void* call_back(void* T)
 }
 
 
+//片段着色器源码
+const char *fragmentShaderSource=
+"#version 330 core\n"
+"out vec4 FragColor;\n"
+"in vec3 ourColor;\n" 
+"void main()\n"
+"{\n"
+"   FragColor = vec4(ourColor, 1.0);\n"
+"}\n";
+
+/*
+"#version 330 core\n"
+"out vec4 FragColor;\n"
+"void main()\n"
+"{\n"
+"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+"}\0"; 
+*/
+
+
+
+//GLSL语言 着色源码 嵌入字符串
+const char *vertexShaderSource =
+"#version 330 core\n"
+"layout (location = 0) in vec3 aPos;\n"
+"layout (location = 1) in vec3 aColor;\n"
+"out vec3 ourColor;\n"
+"void main()\n"
+"{\n"
+"   gl_Position = vec4(aPos, 1.0);\n"
+"   ourColor = aColor;\n"
+"}\0";
+ 
+/*
+"#version 330 core\n"
+"layout (location = 0) in vec3 aPos;\n"
+"void main()\n"
+"{\n"
+"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"}\0";
+*/
+
+
+/*
+	//顶点
+	float vertices[] = {
+		0.5f, 0.5f, 0.0f,   // 右上角
+		0.5f, -0.5f, 0.0f,  // 右下角
+		0.0f, 0.0f, 0.0f,   //中间
+		-0.5f, -0.5f, 0.0f, // 左下角
+		-0.5f, 0.5f, 0.0f   // 左上角
+	};
+*/
+float vertices[] =
+{
+	// 位置              // 颜色
+	0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // 右下
+	-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // 左下
+	0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // 顶部
+};
+
+unsigned int indices[] =
+{
+        // 注意索引从0开始! 
+        // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
+        // 这样可以由下标代表顶点组合成矩形
+        0, 1, 2, // 第一个三角形
+};
+
 int main()
 {	
 	//hInstance = GetModuleHandle(nullptr);
@@ -115,8 +185,7 @@ int main()
 	logs->WRITE_LOG(Logs,"这是一个测试 希望你能看到");
 	
 	graphics->init("俄罗斯方块",IMG_ICON_HUANXIONG,1000,600);
-	graphics->test();
-	
+
 	logs->WRITE_LOG(Logs,"开始测试");
 
 	logs->WRITE_LOG(Logs,"测试结束,时长为 : "+std::to_string(timing->get_duration()));
@@ -125,6 +194,25 @@ int main()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//充满
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	Shader shader(vertexShaderSource,fragmentShaderSource);
+	Vertices_explain ver;
+	ver.type_size = sizeof(float);
+	ver.type_opengl = GL_FLOAT;
+	ver.group_number = 2;
+	ver.data_len = 6;
+	Group3<int,int,int> group3[2];
+	group3[0].a=0;
+	group3[0].b=3;
+	group3[0].c=0;
+	group3[1].a=1;
+	group3[1].b=3;
+	group3[1].c=3;
+	ver.groups.push_back(group3[0]);
+	ver.groups.push_back(group3[1]);
+
+	shader.set_vertices(vertices,sizeof(vertices),indices,sizeof(indices),ver);
+	
 
 	while(graphics->update())
 	{
@@ -142,9 +230,9 @@ int main()
 		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 		*/
 		
+		shader.use();
 		//激活程序对象
-    	glUseProgram(graphics->shaderProgram);
-    	glBindVertexArray(graphics->VAO);
+    	glBindVertexArray(shader.get_VAO());
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     	//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glBindVertexArray(0);
