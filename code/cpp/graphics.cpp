@@ -205,19 +205,42 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     return ;
 }
 //片段着色器源码
-const char *fragmentShaderSource="#version 330 core\n"
+const char *fragmentShaderSource=
+/*
+"#version 330 core\n"
 "out vec4 FragColor;\n"
 "void main()\n"
 "{\n"
 "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 "}\0"; 
+*/
+
+"#version 330 core\n"
+"out vec4 FragColor;\n"
+"in vec3 ourColor;\n" 
+"void main()\n"
+"{\n"
+"   FragColor = vec4(ourColor, 1.0);\n"
+"}\n";
 
 //GLSL语言 着色源码 嵌入字符串
-const char *vertexShaderSource = "#version 330 core\n"
+const char *vertexShaderSource = 
+/*
+"#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
 "void main()\n"
 "{\n"
 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"}\0";
+*/
+"#version 330 core\n"
+"layout (location = 0) in vec3 aPos;\n"
+"layout (location = 1) in vec3 aColor;\n"
+"out vec3 ourColor;\n"
+"void main()\n"
+"{\n"
+"   gl_Position = vec4(aPos, 1.0);\n"
+"   ourColor = aColor;\n"
 "}\0";
 
 void Graphics::test()
@@ -264,12 +287,21 @@ void Graphics::test()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+    /*
     //顶点
     float vertices[] = {
         0.5f, 0.5f, 0.0f,   // 右上角
         0.5f, -0.5f, 0.0f,  // 右下角
+        0.0f, 0.0f, 0.0f,   //中间
         -0.5f, -0.5f, 0.0f, // 左下角
         -0.5f, 0.5f, 0.0f   // 左上角
+    };
+    */
+    float vertices[] = {
+    // 位置              // 颜色
+     0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // 右下
+    -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // 左下
+     0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // 顶部
     };
      
     glGenVertexArrays(1, &VAO);
@@ -282,8 +314,7 @@ void Graphics::test()
         // 注意索引从0开始! 
         // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
         // 这样可以由下标代表顶点组合成矩形
-        0, 1, 3, // 第一个三角形
-        1, 2, 3  // 第二个三角形
+        0, 1, 2, // 第一个三角形
     };
 
     //顶点数组复制
@@ -297,8 +328,11 @@ void Graphics::test()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     //告诉openGL 如何处理数据
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     //解绑
     glBindBuffer(GL_ARRAY_BUFFER, 0); 

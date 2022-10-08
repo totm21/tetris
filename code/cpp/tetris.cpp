@@ -7,6 +7,7 @@
 #include<fstream>
 #include<string>
 #include<iterator>
+#include<math.h>
 
 //此处为扩展头文件
 #include"expands/lua/lua.hpp"
@@ -123,13 +124,24 @@ int main()
 	//画线
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//充满
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	while(graphics->update())
 	{
 		timers->update();
 		//清空
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+		/*
+		随时间变色
+		float timeValue = glfwGetTime();
+		float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+		int vertexColorLocation = glGetUniformLocation(graphics->shaderProgram, "ourColor");
+		glUseProgram(graphics->shaderProgram);
+		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+		*/
+		
 		//激活程序对象
     	glUseProgram(graphics->shaderProgram);
     	glBindVertexArray(graphics->VAO);
