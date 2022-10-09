@@ -121,7 +121,7 @@ clean:
 	cd make && del *.exe
 
 clean_log:
-	cd data/log && del *.txt
+	cd make/log && del *.txt
 
 #重新生成(不包括插件)
 remake:
@@ -136,5 +136,5 @@ remake_all:
 delete:
 	cd $(path_middle) && del $(name)
 
-.PHONY:run clean_o clean_plugin clean_all clean clean_log remake delete  
+.PHONY:run clean_o clean_plugin clean_all clean clean_log remake delete
 
