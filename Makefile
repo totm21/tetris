@@ -32,7 +32,7 @@ all:tetris
 #此处会非常长 所以规定每行最长三个!!!
 tetris:$(path_middle)tetris.o $(path_middle)resources.o \
 	$(path_middle_plugin)json_reader.o $(path_middle_plugin)json_writer.o $(path_middle_plugin)json_value.o \
-	$(path_middle_plugin)glad.o \
+	$(path_middle_plugin)glad.o $(path_middle_plugin)stb_image.o \
 	$(path_middle)define.o \
 	$(path_middle)register.o $(path_middle)timer.o $(path_middle)log.o \
 	$(path_middle)graphics.o $(path_middle)shader.o $(path_middle)template.o \
@@ -40,7 +40,7 @@ tetris:$(path_middle)tetris.o $(path_middle)resources.o \
 	g++ $(version) -o make/tetris \
 		$(path_middle)tetris.o $(path_middle)resources.o \
 		$(path_middle_plugin)json_reader.o $(path_middle_plugin)json_writer.o $(path_middle_plugin)json_value.o \
-		$(path_middle_plugin)glad.o \
+		$(path_middle_plugin)glad.o $(path_middle_plugin)stb_image.o \
 		$(path_middle)define.o \
 		$(path_middle)register.o $(path_middle)timer.o $(path_middle)log.o \
 		$(path_middle)graphics.o $(path_middle)shader.o $(path_middle)template.o \
@@ -69,6 +69,11 @@ $(path_middle_plugin)json_value.o:$(path_plugin)json_value.cpp
 $(path_middle_plugin)glad.o:$(path_plugin)glad.c
 	g++ -c $(path_plugin)glad.c -o $(path_middle_plugin)glad.o
 #openGL 结束
+
+#图像处理stb_image.h 插件支持
+$(path_middle_plugin)stb_image.o:$(path_plugin)stb_image.cpp
+	g++ -c $(path_plugin)stb_image.cpp -o $(path_middle_plugin)stb_image.o
+#stb_image 结束
 
 #此处插件头编译结束
 

@@ -12,6 +12,7 @@
 //此处为扩展头文件
 #include"expands/lua/lua.hpp"
 #include"expands/json/json.h"
+#include"expands/stb_image.h"
 
 //此处为自定义头文件
 #include"register.h"
@@ -94,19 +95,13 @@ const char *fragmentShaderSource=
 "#version 330 core\n"
 "out vec4 FragColor;\n"
 "in vec3 ourColor;\n" 
+"in vec2 TexCoord;\n"
+"uniform sampler2D texture1;\n"
 "void main()\n"
 "{\n"
-"   FragColor = vec4(ourColor, 1.0);\n"
-"}\n";
+"   FragColor = texture(texture1, TexCoord) * vec4(ourColor, 1.0f);\n"
+"}\n\0";
 
-/*
-"#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\0"; 
-*/
 
 
 
@@ -115,39 +110,28 @@ const char *vertexShaderSource =
 "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
 "layout (location = 1) in vec3 aColor;\n"
+"layout (location = 2) in vec2 aTexCoord;\n"
 "out vec3 ourColor;\n"
+"out vec2 TexCoord;\n"
 "void main()\n"
 "{\n"
 "   gl_Position = vec4(aPos, 1.0);\n"
 "   ourColor = aColor;\n"
+"	TexCoord = vec2(aTexCoord.x, aTexCoord.y);\n"
 "}\0";
- 
-/*
-"#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-*/
 
-
-/*
-	//顶点
-	float vertices[] = {
-		0.5f, 0.5f, 0.0f,   // 右上角
-		0.5f, -0.5f, 0.0f,  // 右下角
-		0.0f, 0.0f, 0.0f,   //中间
-		-0.5f, -0.5f, 0.0f, // 左下角
-		-0.5f, 0.5f, 0.0f   // 左上角
-	};
-*/
 float vertices[] =
 {
-	// 位置              // 颜色
-	0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // 右下
-	-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // 左下
-	0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // 顶部
+	0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // 右上
+     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // 右下
+    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // 左下
+    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // 左上
+	/*
+	// 位置              // 颜色			//纹理
+	0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,	1.0f, 0.0f, // 右下角
+	-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,	0.0f, 0.0f, // 左下角
+	0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,   0.5f, 1.0f // 上中
+	*/
 };
 
 unsigned int indices[] =
@@ -155,7 +139,9 @@ unsigned int indices[] =
         // 注意索引从0开始! 
         // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
         // 这样可以由下标代表顶点组合成矩形
-        0, 1, 2, // 第一个三角形
+        //0, 1, 2, // 第一个三角形
+		0, 1, 3,
+		1, 2, 3
 };
 
 int main()
@@ -199,19 +185,48 @@ int main()
 	Vertices_explain ver;
 	ver.type_size = sizeof(float);
 	ver.type_opengl = GL_FLOAT;
-	ver.group_number = 2;
-	ver.data_len = 6;
-	Group3<int,int,int> group3[2];
+	ver.group_number = 3;
+	ver.data_len = 8;
+	Group3<int,int,int> group3[3];
 	group3[0].a=0;
 	group3[0].b=3;
 	group3[0].c=0;
 	group3[1].a=1;
 	group3[1].b=3;
 	group3[1].c=3;
+	group3[2].a=2;
+	group3[2].b=2;
+	group3[2].c=6;
 	ver.groups.push_back(group3[0]);
 	ver.groups.push_back(group3[1]);
+	ver.groups.push_back(group3[2]);
 
 	shader.set_vertices(vertices,sizeof(vertices),indices,sizeof(indices),ver);
+	
+	unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+    // set the texture wrapping parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // load image, create texture and generate mipmaps
+    int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true);
+    // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+    unsigned char *data = stbi_load("../resources/image/root.jpg", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
 	
 
 	while(graphics->update())
@@ -230,14 +245,14 @@ int main()
 		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 		*/
 		
+		glBindTexture(GL_TEXTURE_2D, texture);
 		shader.use();
 		//激活程序对象
     	glBindVertexArray(shader.get_VAO());
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     	//glDrawArrays(GL_TRIANGLES, 0, 3);
-		glBindVertexArray(0);
 	}
 
- 	//FreeConsole();
+ 	FreeConsole();
     return 0;
 }
