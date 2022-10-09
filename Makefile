@@ -33,6 +33,7 @@ all:tetris
 tetris:$(path_middle)tetris.o $(path_middle)resources.o \
 	$(path_middle_plugin)json_reader.o $(path_middle_plugin)json_writer.o $(path_middle_plugin)json_value.o \
 	$(path_middle_plugin)glad.o \
+	$(path_middle)define.o \
 	$(path_middle)register.o $(path_middle)timer.o $(path_middle)log.o \
 	$(path_middle)graphics.o $(path_middle)shader.o $(path_middle)template.o \
 
@@ -40,6 +41,7 @@ tetris:$(path_middle)tetris.o $(path_middle)resources.o \
 		$(path_middle)tetris.o $(path_middle)resources.o \
 		$(path_middle_plugin)json_reader.o $(path_middle_plugin)json_writer.o $(path_middle_plugin)json_value.o \
 		$(path_middle_plugin)glad.o \
+		$(path_middle)define.o \
 		$(path_middle)register.o $(path_middle)timer.o $(path_middle)log.o \
 		$(path_middle)graphics.o $(path_middle)shader.o $(path_middle)template.o \
 	 	-mwindows -llua54 -lglfw3 -lgdi32 -lopengl32
@@ -91,6 +93,9 @@ $(path_middle)shader.o:$(path_cpp)shader.cpp
 
 $(path_middle)template.o:$(path_cpp)template.cpp
 	g++ $(UTF_GBK) -c $(path_cpp)template.cpp -o $(path_middle)template.o
+
+$(path_middle)define.o:$(path_cpp)define.cpp
+	g++ $(UTF_GBK) -c $(path_cpp)define.cpp -o $(path_middle)define.o
 
 run:
 	cd make && tetris.exe

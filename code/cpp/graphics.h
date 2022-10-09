@@ -17,6 +17,7 @@
 #include<tchar.h>
 
 #include"log.h"
+#include"define.h"
 
 #include"../../resources/resources.h"
 
@@ -41,12 +42,6 @@ class Dot2
         bool operator <(Dot2 &dot);                 //小于号重载  基于x
         bool operator >(Dot2 &dot);                 //大于号重载  基于x
         bool operator ==(Dot2 &dot);
-};
-
-enum Language
-{
-    english=0,
-    chinese=1,
 };
 
 class Graphics

@@ -4,7 +4,6 @@
     C函数注册给lua
     @auther:    程智
     @date:      2022.7.3
-    @alter:     2022.7.3
 */
 
 #include "expands/lua/lua.hpp"

@@ -15,7 +15,6 @@
 
     @auther:    程智
     @date:      2022.9.13
-    @alter:     2022.10.3
 */
 
 #include<iostream>

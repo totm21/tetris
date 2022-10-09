@@ -13,7 +13,6 @@
     渲染封装
     @auther:    程智
     @date:      2022.10.8
-    @alter:     2022.10.8
 */
 
 class Vertices_explain
