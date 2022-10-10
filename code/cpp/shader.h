@@ -45,6 +45,7 @@ class Shader
         void setInt(const std::string &name, int value) const;   
         void setFloat(const std::string &name, float value) const;
         
+        unsigned int get_ID(){return this->ID;};
         unsigned int get_VAO(){return this->VAO;};
         unsigned int get_VBO(){return this->VBO;};
         unsigned int get_EBO(){return this->EBO;};
