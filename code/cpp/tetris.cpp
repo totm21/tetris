@@ -219,7 +219,6 @@ int main()
 
 	shader.set_vertices(vertices,sizeof(vertices),indices,sizeof(indices),ver);
 	shader2.set_vertices(vertices2,sizeof(vertices2),indices,sizeof(indices),ver);
-	
 	unsigned int texture1,texture2;
     glGenTextures(1, &texture1);
     glBindTexture(GL_TEXTURE_2D, texture1); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
@@ -299,7 +298,7 @@ int main()
 		//激活程序对象
     	glBindVertexArray(shader.get_VAO());
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		
+
 		shader2.use();
 		//激活程序对象
     	glBindVertexArray(shader2.get_VAO());

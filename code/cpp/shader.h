@@ -25,17 +25,32 @@ class Vertices_explain
         std::vector<Group3<int,int,int>> groups;        //对应每一组的数据 1.组号 2.单个点的数据个数 3.偏移量 
 };
 
+class Textures_explain
+{
+    public:
+        unsigned int texture;
+        char hierarchy;             //层级
+        unsigned int base_strategy,max_strategy,min_strategy;          //基础策略  最大策略 最小策略
+        
+};
+
+
+
+
 class Shader
 {
     private:
         //程序ID
         unsigned int ID;
         unsigned int VAO,VBO,EBO;
+        
     public:
         // 构造器读取并构建着色器
         Shader(const char* vertexPath,const char* fragmentPath);
         //设置并解析顶点
         bool set_vertices(float* vertices,int vertices_size,unsigned int* indices,int indices_size,Vertices_explain vertices_explain);
+        //设置并解析纹理
+        bool set_textures();
         // 编译错误检查
         bool check_compile_code(unsigned int shader); 
         // 使用/激活程序
