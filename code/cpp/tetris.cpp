@@ -135,6 +135,20 @@ float vertices[] =
 	*/
 };
 
+float vertices2[] =
+{
+	1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // 右上
+    1.0f, 0.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // 右下
+    0.0f, 0.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // 左下
+    0.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // 左上
+	/*
+	// 位置              // 颜色			//纹理
+	0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,	1.0f, 0.0f, // 右下角
+	-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,	0.0f, 0.0f, // 左下角
+	0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,   0.5f, 1.0f // 上中
+	*/
+};
+
 unsigned int indices[] =
 {
         // 注意索引从0开始! 
@@ -183,6 +197,7 @@ int main()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	Shader shader(vertexShaderSource,fragmentShaderSource);
+	Shader shader2(vertexShaderSource,fragmentShaderSource);
 	Vertices_explain ver;
 	ver.type_size = sizeof(float);
 	ver.type_opengl = GL_FLOAT;
@@ -203,6 +218,7 @@ int main()
 	ver.groups.push_back(group3[2]);
 
 	shader.set_vertices(vertices,sizeof(vertices),indices,sizeof(indices),ver);
+	shader2.set_vertices(vertices2,sizeof(vertices2),indices,sizeof(indices),ver);
 	
 	unsigned int texture1,texture2;
     glGenTextures(1, &texture1);
@@ -255,6 +271,9 @@ int main()
 	shader.use();
     shader.setInt("texture1", 0);
     shader.setInt("texture2", 1);
+	shader2.use();
+    shader2.setInt("texture1", 0);
+    shader2.setInt("texture2", 1);
 
 	while(graphics->update())
 	{
@@ -279,6 +298,11 @@ int main()
 		shader.use();
 		//激活程序对象
     	glBindVertexArray(shader.get_VAO());
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		
+		shader2.use();
+		//激活程序对象
+    	glBindVertexArray(shader2.get_VAO());
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
