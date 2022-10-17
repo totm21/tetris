@@ -6,6 +6,8 @@
 #include<GLFW/glfw3.h>
 #include<string>
 
+#include"expands/stb_image.h"
+
 #include"log.h"
 #include"template.h"
 
@@ -29,9 +31,15 @@ class Textures_explain
 {
     public:
         unsigned int texture;
-        char hierarchy;             //层级
-        unsigned int base_strategy,max_strategy,min_strategy;          //基础策略  最大策略 最小策略
-        
+        unsigned char *data;        //图片数据
+        //初始化
+        void init();                
+        //设置策略
+        void set_strategy(unsigned int base_strategy,unsigned int max_strategy,unsigned int min_strategy);          
+        //加载并绑定纹理-图片
+        bool load_image(std::string file);  
+        //绑定纹理单元
+        void bind_texture(int index);
 };
 
 
@@ -43,7 +51,7 @@ class Shader
         //程序ID
         unsigned int ID;
         unsigned int VAO,VBO,EBO;
-        
+
     public:
         // 构造器读取并构建着色器
         Shader(const char* vertexPath,const char* fragmentPath);

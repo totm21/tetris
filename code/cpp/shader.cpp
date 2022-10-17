@@ -64,15 +64,8 @@ bool Shader::set_vertices(float* vertices,int vertices_size,unsigned int* indice
 
 bool set_textures()
 {
-    unsigned int texture1,texture2;
-    glGenTextures(1, &texture1);
-    glBindTexture(GL_TEXTURE_2D, texture1); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-    // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    return true;
 }
 
 bool Shader::check_compile_code(unsigned int shader)
@@ -107,6 +100,44 @@ void Shader::setInt(const std::string &name, int value) const
 void Shader::setFloat(const std::string &name, float value) const
 { 
     glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
-} 
+}
 
+void Textures_explain::init()
+{
+    glGenTextures(1, &this->texture);
+    glBindTexture(GL_TEXTURE_2D, this->texture);
+}
 
+void Textures_explain::set_strategy(unsigned int base_strategy,unsigned int max_strategy,unsigned int min_strategy)
+{
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, base_strategy);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, base_strategy);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min_strategy);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, max_strategy);
+    return ;
+}
+
+bool Textures_explain::load_image(std::string file)
+{
+    int width, height, nrChannels;
+    data = stbi_load(file.c_str(), &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        logs->WRITE_LOG(Error,"纹理读取失败,读取位置: "+file);
+        return false;
+    }
+    stbi_image_free(data);
+    return true;
+}
+
+void Textures_explain::bind_texture(int index)
+{
+    glActiveTexture(GL_TEXTURE0 + index);
+    glBindTexture(GL_TEXTURE_2D, this->texture);
+    return ;
+}

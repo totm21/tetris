@@ -100,7 +100,7 @@ const char *fragmentShaderSource=
 "uniform sampler2D texture2;\n"
 "void main()\n"
 "{\n"
-"	FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.5);"
+"	FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.3);"
 "}\n\0";
 
 
@@ -164,7 +164,8 @@ int main()
 	//hInstance = GetModuleHandle(nullptr);
 	
 	AllocConsole();
-	
+	stbi_set_flip_vertically_on_load(true);
+
 #ifdef _WIN32
 	system("chcp 65001");	//utf-8乱码问题
 #endif
@@ -219,54 +220,16 @@ int main()
 
 	shader.set_vertices(vertices,sizeof(vertices),indices,sizeof(indices),ver);
 	shader2.set_vertices(vertices2,sizeof(vertices2),indices,sizeof(indices),ver);
-	unsigned int texture1,texture2;
-    glGenTextures(1, &texture1);
-    glBindTexture(GL_TEXTURE_2D, texture1); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-    // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load image, create texture and generate mipmaps
-    int width, height, nrChannels;
-	stbi_set_flip_vertically_on_load(true);
-    // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-    unsigned char *data = stbi_load("../resources/image/root.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
 	
-	glGenTextures(1, &texture2);
-    glBindTexture(GL_TEXTURE_2D, texture2);
-    // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load image, create texture and generate mipmaps
-    data = stbi_load("../resources/image/2.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        // note that the awesomeface.png has transparency and thus an alpha channel, so make sure to tell OpenGL the data type is of GL_RGBA
-        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
+	Textures_explain tex1,tex2;
+	tex1.init();
+	tex1.set_strategy(GL_REPEAT,GL_LINEAR,GL_LINEAR_MIPMAP_LINEAR);
+	tex1.load_image("../resources/image/root.jpg");
 	
+	tex2.init();
+	tex2.set_strategy(GL_REPEAT,GL_LINEAR,GL_LINEAR_MIPMAP_LINEAR);
+	tex2.load_image("../resources/image/1.jpg");
+
 	shader.use();
     shader.setInt("texture1", 0);
     shader.setInt("texture2", 1);
@@ -289,21 +252,21 @@ int main()
 		glUseProgram(graphics->shaderProgram);
 		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 		*/
-		
-		glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture2);
+		tex1.bind_texture(0);
+		tex2.bind_texture(1);
+
 		shader.use();
 		//激活程序对象
     	glBindVertexArray(shader.get_VAO());
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+		/*
 		shader2.use();
 		//激活程序对象
     	glBindVertexArray(shader2.get_VAO());
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     	//glDrawArrays(GL_TRIANGLES, 0, 3);
+		*/
 	}
 
  	FreeConsole();
