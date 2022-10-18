@@ -141,3 +141,14 @@ void Textures_explain::bind_texture(int index)
     glBindTexture(GL_TEXTURE_2D, this->texture);
     return ;
 }
+
+bool Textures_explain::creat_testres(std::string file,unsigned int base_strategy,unsigned int max_strategy,unsigned int min_strategy)
+{
+    
+    this->set_strategy(base_strategy,max_strategy,min_strategy);
+    if(!this->load_image(file))
+    {
+        return false;
+    }
+    return true;
+}
