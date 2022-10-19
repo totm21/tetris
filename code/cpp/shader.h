@@ -5,6 +5,7 @@
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 #include<string>
+#include<vector>
 
 #include"expands/stb_image.h"
 
@@ -32,6 +33,8 @@ class Textures_explain
     public:
         unsigned int texture;
         unsigned char *data;        //图片数据
+        bool is_use;                //是否使用                 
+        Textures_explain();
         //初始化
         void init();                
         //设置策略
@@ -42,25 +45,35 @@ class Textures_explain
         bool creat_testres(std::string file,unsigned int base_strategy,unsigned int max_strategy,unsigned int min_strategy);
         //绑定纹理单元
         void bind_texture(int index);
+        //设置是否启用
+        void set_use(bool is_use);
 };
-
-
 
 
 class Shader
 {
     private:
+    public:
         //程序ID
         unsigned int ID;
         unsigned int VAO,VBO,EBO;
-        
+        Textures_explain* testures;          //纹理组 openGL最大支持16个 0-15
+        char number_testures;                //纹理数量
     public:
         // 构造器读取并构建着色器
         Shader(const char* vertexPath,const char* fragmentPath);
         //设置并解析顶点
         bool set_vertices(float* vertices,int vertices_size,unsigned int* indices,int indices_size,Vertices_explain vertices_explain);
-        //设置并解析纹理
-        bool set_textures();
+        //初始化纹理(仅分配空间)
+        bool creat_textures(int number);
+        //重新初始化纹理(仅分配空间)
+        bool recreat_textures(int number);
+        //释放纹理
+        bool delete_textures();
+        //设置index号纹理
+        bool set_textures(int index,std::string file,unsigned int base_strategy,unsigned int max_strategy,unsigned int min_strategy);
+        //统一绑定纹理
+        void bind_textures();
         // 编译错误检查
         bool check_compile_code(unsigned int shader); 
         // 使用/激活程序
@@ -69,6 +82,7 @@ class Shader
         void setBool(const std::string &name, bool value) const;  
         void setInt(const std::string &name, int value) const;   
         void setFloat(const std::string &name, float value) const;
+
         
         unsigned int get_ID(){return this->ID;};
         unsigned int get_VAO(){return this->VAO;};

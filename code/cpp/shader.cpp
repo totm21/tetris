@@ -3,6 +3,8 @@
 
 Shader::Shader(const char* vertex_code,const char* fragment_code)
 {
+    this->testures=nullptr;
+    this->number_testures=0;
 
     unsigned int vertex, fragment;
     int success;
@@ -102,10 +104,71 @@ void Shader::setFloat(const std::string &name, float value) const
     glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
 }
 
+bool Shader::creat_textures(int number)
+{
+    this->testures=new Textures_explain[number]();
+    if(this->testures==nullptr)
+    {
+        return false;
+    }
+    else
+    {
+        this->number_testures=number;
+        return true;
+    }
+}
+
+bool Shader::recreat_textures(int number)
+{
+    if(this->testures!=nullptr)
+    {
+        delete[] this->testures;
+    }
+    return this->creat_textures(number);
+}
+
+bool Shader::delete_textures()
+{
+    if(this->testures!=nullptr)
+    {
+        delete[] this->testures;
+    }
+    this->testures=nullptr;
+    this->number_testures=0;
+    return true;
+}
+
+bool Shader::set_textures(int index,std::string file,unsigned int base_strategy,unsigned int max_strategy,unsigned int min_strategy)
+{
+    this->testures[index].init();
+    this->testures[index].creat_testres(file,base_strategy,max_strategy,min_strategy);
+    this->testures[index].set_use(true);
+    return true;
+}
+
+void Shader::bind_textures()
+{
+    for(int i=0;i<this->number_testures;i++)
+    {
+        if(this->testures[i].is_use)
+        {
+            this->testures[i].bind_texture(i);
+        }
+    }
+    return;
+}
+
+Textures_explain::Textures_explain()
+{
+    this->texture=0;
+    this->data=nullptr;
+}
+
 void Textures_explain::init()
 {
     glGenTextures(1, &this->texture);
     glBindTexture(GL_TEXTURE_2D, this->texture);
+    this->is_use=false;
 }
 
 void Textures_explain::set_strategy(unsigned int base_strategy,unsigned int max_strategy,unsigned int min_strategy)
@@ -144,7 +207,6 @@ void Textures_explain::bind_texture(int index)
 
 bool Textures_explain::creat_testres(std::string file,unsigned int base_strategy,unsigned int max_strategy,unsigned int min_strategy)
 {
-    
     this->set_strategy(base_strategy,max_strategy,min_strategy);
     if(!this->load_image(file))
     {
@@ -152,3 +214,11 @@ bool Textures_explain::creat_testres(std::string file,unsigned int base_strategy
     }
     return true;
 }
+
+void Textures_explain::set_use(bool is_use)
+{
+    this->is_use=is_use;
+    return ;
+}
+
+

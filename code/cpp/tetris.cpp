@@ -151,12 +151,12 @@ float vertices2[] =
 
 unsigned int indices[] =
 {
-        // 注意索引从0开始! 
-        // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
-        // 这样可以由下标代表顶点组合成矩形
-        //0, 1, 2, // 第一个三角形
-		0, 1, 3,
-		1, 2, 3
+	// 注意索引从0开始! 
+	// 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
+	// 这样可以由下标代表顶点组合成矩形
+	//0, 1, 2, // 第一个三角形
+	0, 1, 3,
+	1, 2, 3
 };
 
 int main()
@@ -221,14 +221,10 @@ int main()
 	shader.set_vertices(vertices,sizeof(vertices),indices,sizeof(indices),ver);
 	shader2.set_vertices(vertices2,sizeof(vertices2),indices,sizeof(indices),ver);
 	
-	Textures_explain tex1,tex2;
-	tex1.init();
-	tex1.set_strategy(GL_REPEAT,GL_LINEAR,GL_LINEAR_MIPMAP_LINEAR);
-	tex1.load_image("../resources/image/root.jpg");
+	shader.creat_textures(3);
+	shader.set_textures(0,"../resources/image/root.jpg",GL_REPEAT,GL_LINEAR,GL_LINEAR_MIPMAP_LINEAR);
 	
-	tex2.init();
-	tex2.set_strategy(GL_REPEAT,GL_LINEAR,GL_LINEAR_MIPMAP_LINEAR);
-	tex2.load_image("../resources/image/1.jpg");
+	shader.set_textures(1,"../resources/image/1.jpg",GL_REPEAT,GL_LINEAR,GL_LINEAR_MIPMAP_LINEAR);
 
 	shader.use();
     shader.setInt("texture1", 0);
@@ -252,21 +248,20 @@ int main()
 		glUseProgram(graphics->shaderProgram);
 		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 		*/
-		tex1.bind_texture(0);
-		tex2.bind_texture(1);
+		shader.bind_textures();
 
 		shader.use();
 		//激活程序对象
     	glBindVertexArray(shader.get_VAO());
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		/*
+		
 		shader2.use();
 		//激活程序对象
     	glBindVertexArray(shader2.get_VAO());
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     	//glDrawArrays(GL_TRIANGLES, 0, 3);
-		*/
+		
 	}
 
  	FreeConsole();

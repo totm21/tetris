@@ -39,6 +39,50 @@
             <PassCommandLine>False</PassCommandLine>
             <HideFromDialogs>0</HideFromDialogs>
           </File>
+          <File>
+            <Type>3</Type>
+            <Name>../resources</Name>
+            <Action>0</Action>
+            <OverwriteDateTime>False</OverwriteDateTime>
+            <OverwriteAttributes>False</OverwriteAttributes>
+            <HideFromDialogs>0</HideFromDialogs>
+            <Files>
+              <File>
+                <Type>3</Type>
+                <Name>image</Name>
+                <Action>0</Action>
+                <OverwriteDateTime>False</OverwriteDateTime>
+                <OverwriteAttributes>False</OverwriteAttributes>
+                <HideFromDialogs>0</HideFromDialogs>
+                <Files>
+                  <File>
+                    <Type>2</Type>
+                    <Name>1.jpg</Name>
+                    <File>C:\Users\chengzhi\Desktop\tetris\resources\image\1.jpg</File>
+                    <ActiveX>False</ActiveX>
+                    <ActiveXInstall>False</ActiveXInstall>
+                    <Action>0</Action>
+                    <OverwriteDateTime>False</OverwriteDateTime>
+                    <OverwriteAttributes>False</OverwriteAttributes>
+                    <PassCommandLine>False</PassCommandLine>
+                    <HideFromDialogs>0</HideFromDialogs>
+                  </File>
+                  <File>
+                    <Type>2</Type>
+                    <Name>root.jpg</Name>
+                    <File>C:\Users\chengzhi\Desktop\tetris\resources\image\root.jpg</File>
+                    <ActiveX>False</ActiveX>
+                    <ActiveXInstall>False</ActiveXInstall>
+                    <Action>0</Action>
+                    <OverwriteDateTime>False</OverwriteDateTime>
+                    <OverwriteAttributes>False</OverwriteAttributes>
+                    <PassCommandLine>False</PassCommandLine>
+                    <HideFromDialogs>0</HideFromDialogs>
+                  </File>
+                </Files>
+              </File>
+            </Files>
+          </File>
         </Files>
       </File>
     </Files>
