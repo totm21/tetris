@@ -36,6 +36,7 @@ tetris:$(path_middle)tetris.o $(path_middle)resources.o \
 	$(path_middle)define.o \
 	$(path_middle)register.o $(path_middle)timer.o $(path_middle)log.o \
 	$(path_middle)graphics.o $(path_middle)shader.o $(path_middle)template.o \
+	$(path_middle)configure.o \
 
 	g++ $(version) -o make/tetris \
 		$(path_middle)tetris.o $(path_middle)resources.o \
@@ -44,6 +45,7 @@ tetris:$(path_middle)tetris.o $(path_middle)resources.o \
 		$(path_middle)define.o \
 		$(path_middle)register.o $(path_middle)timer.o $(path_middle)log.o \
 		$(path_middle)graphics.o $(path_middle)shader.o $(path_middle)template.o \
+		$(path_middle)configure.o \
 	 	-mwindows -llua54 -lglfw3 -lgdi32 -lopengl32
 
 #此处为资源文件编译!
@@ -101,6 +103,9 @@ $(path_middle)template.o:$(path_cpp)template.cpp
 
 $(path_middle)define.o:$(path_cpp)define.cpp
 	g++ $(UTF_GBK) -c $(path_cpp)define.cpp -o $(path_middle)define.o
+
+$(path_middle)configure.o:$(path_cpp)configure.cpp
+	g++ $(UTF_GBK) -c $(path_cpp)configure.cpp -o $(path_middle)configure.o
 
 run:
 	cd make && tetris.exe
