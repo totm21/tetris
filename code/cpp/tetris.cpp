@@ -179,7 +179,7 @@ int main()
     shader2.setInt("texture1", 0);
     shader2.setInt("texture2", 1);
 
-	readFileJson();
+	readFileJson("../configure/setting.json");
 
 	while(graphics->update())
 	{

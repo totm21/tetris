@@ -1,17 +1,16 @@
 
-#include<iostream>
-#include<fstream>
+
 
 #include"configure.h"
 
 
-void readFileJson()
+void readFileJson(std::string file)
 {
 	Json::Reader reader;
 	Json::Value root;
  
 	//从文件中读取，保证当前文件有demo.json文件  
-	std::ifstream in("../configure/setting.json", std::ios::binary);
+	std::ifstream in(file, std::ios::binary);
  
 	if (!in.is_open())
 	{
