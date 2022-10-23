@@ -11,15 +11,17 @@
 class mb_node
 {
     public:
-        int index;
-        void 
+        int id;
+        void* data;     
 };
 
 class mb_data
 {
     public:
         std::vector<char> type;      //表头类型
-        std::vector<mb_node>;
+        std::vector<mb_node> data;
+
+
 };
 
 void readFileJson(std::string file);
